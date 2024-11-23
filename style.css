@@ -1,0 +1,81 @@
+/* Explorer Avrupa Genel Stili */
+.explorer_europe {
+    padding: 60px 0;
+    background-color: #f9f9f9;
+}
+
+/* Kart Görselleri */
+.thumb img {
+    max-width: 100%; /* Görsellerin genişliğini esnek yap */
+    height: auto;
+    margin: 10px auto; /* Ortala */
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    box-shadow: 0px 2px 5px rgba(0, 0, 0, 0.1);
+}
+
+/* Logo */
+.responsive-logo {
+    max-width: 70px !important; /* Daha küçük bir maksimum genişlik */
+    height: auto;
+    margin: 0 auto;
+}
+
+@media (max-width: 768px) {
+    .responsive-logo {
+        max-width: 50px !important; /* Mobilde daha da küçült */
+    }
+}
+
+/* Alt Bölüm İkonlar */
+.action-icon {
+    max-width: 60px; /* İkon genişliği */
+    height: auto;
+    margin: 0 auto;
+}
+
+@media (max-width: 768px) {
+    .action-icon {
+        max-width: 50px; /* Mobilde daha küçük ikon */
+    }
+}
+
+/* Mobil ve Tablet Uyumlu Grid */
+@media (max-width: 768px) {
+    .row > div {
+        flex: 0 0 50% !important; /* Sütun genişliğini %50 yap */
+        max-width: 50% !important;
+        text-align: center; /* Ortala */
+    }
+}
+
+/* Orta Sütunlar (Koçluk ve İşveren) */
+.narrow-column {
+    max-width: 25% !important; /* Orta sütunun genişliğini %25'e düşür */
+    flex: 0 0 25% !important;
+}
+
+@media (max-width: 768px) {
+    .narrow-column {
+        max-width: 40% !important; /* Mobilde genişliği artır */
+        flex: 0 0 40% !important;
+    }
+}
+.top-right-button {
+    position: fixed; /* Sabit bir pozisyonda tut */
+    z-index: 1000; /* Üst katmanda görünmesini sağla */
+}
+
+@media (max-width: 768px) {
+    .top-right-button a {
+        font-size: 12px; /* Mobilde yazı boyutunu küçült */
+        padding: 5px 10px; /* Buton boyutlarını küçült */
+    }
+}
+
+@media (max-width: 576px) {
+    .top-right-button a {
+        font-size: 10px; /* Daha küçük ekranlarda yazı boyutu */
+        padding: 4px 8px; /* Daha küçük padding */
+    }
+}
