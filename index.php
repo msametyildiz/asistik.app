@@ -103,7 +103,7 @@ session_start(); // Oturum başlat
                     </a>
                 </div>
                 <div class="col-md-2 col-6 text-center">
-                    <a href="#">
+                    <a href="redirect_check.php?target=upload_resume.php">
                         <div class="action">
                             <img src="ÖZGEÇMİŞ1.png" alt="Özgeçmiş Yükle" class="action-icon img-fluid">
                         </div>
