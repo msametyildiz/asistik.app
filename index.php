@@ -28,25 +28,6 @@ session_start(); // Oturum başlat
             <?php endif; ?>
         </div>
     </div>
-            <!--  burada yazılanlar kullanıcı adını sol tarafa atar
-    <div class="header-area">
-    <div class="d-flex justify-content-between align-items-center" style="padding: 1% 1%;">
-        <div>
-        <?php if (isset($_SESSION['user_name'])): ?>
-                <span class="me-3"><strong><?= htmlspecialchars($_SESSION['user_name']); ?></strong></span>
-            <?php endif; ?>
-        </div>
-        <div>
-            <?php if (isset($_SESSION['user_name'])): ?>
-                <a href="logout.php" class="btn btn-danger">Çıkış Yap</a>
-            <?php else: ?>
-                <a href="girisyap.html" class="btn" style="background-color: #80d0d7;">Giriş Yap</a>
-            <?php endif; ?>
-        </div>
-    </div>
-</div>
-
-            -->
 
     <!-- Explorer Section -->
     <div class="explorer_europe">
@@ -62,61 +43,85 @@ session_start(); // Oturum başlat
             
             <!-- İçerik Bölümü -->
             <div class="row justify-content-center" style="height: auto;">
-                <!-- Eğitim -->
+                <!-- İşveren -->
                 <div class="col-lg-4 col-md-6 col-6 d-flex flex-column align-items-end mb-4">
                     <div class="thumb">
-                        <img src="egitim.png" alt="Eğitim" class="img-fluid">
-                    </div>
-                </div>
-                <!-- Koçluk -->
-                <div class="col-lg-3 col-md-6 col-6 d-flex flex-column align-items-center mb-4 narrow-column">
-                    <div class="thumb">
-                        <img src="kocluk.png" alt="Koçluk" class="img-fluid">
+                        <a href="redirect_check.php?target=employer_positions.php">
+                            <img src="isveren.png" alt="İşveren" class="img-fluid">
+                        </a>
                     </div>
                 </div>
                 <!-- Kariyer -->
-                <div class="col-lg-4 col-md-6 col-6 d-flex flex-column align-items-start mb-4">
+                <div class="col-lg-3 col-md-6 col-6 d-flex flex-column align-items-center mb-4 narrow-column">
                     <div class="thumb">
-                        <img src="kariyer.png" alt="Kariyer" class="img-fluid">
+                        <a href="career.php">
+                            <img src="kariyer.png" alt="Kariyer" class="img-fluid">
+                        </a>
                     </div>
+                </div>
+                <!-- Koçluk -->
+                <div class="col-lg-4 col-md-6 col-6 d-flex flex-column align-items-start mb-4">
+                    <a href="#">
+                        <div class="thumb">
+                            <img src="kocluk.png" alt="Koçluk" class="img-fluid alert-section" data-section="Koçluk">
+                        </div>
+                    </a>
                 </div>
                 <!-- Analiz -->
                 <div class="col-lg-4 col-md-6 col-6 d-flex flex-column align-items-end mb-4">
-                    <div class="thumb">
-                        <img src="analiz.png" alt="Analiz" class="img-fluid">
-                    </div>
+                    <a href="#">
+                        <div class="thumb">
+                            <img src="analiz.png" alt="Analiz" class="img-fluid alert-section" data-section="Analiz">
+                        </div>
+                    </a>
                 </div>
-                <!-- İşveren -->
+                <!-- Eğitim -->
                 <div class="col-lg-3 col-md-6 col-6 d-flex flex-column align-items-center mb-4 narrow-column">
-                    <div class="thumb">
-                        <img src="isveren.png" alt="İşveren" class="img-fluid">
-                    </div>
+                    <a href="#">
+                        <div class="thumb">
+                            <img src="egitim.png" alt="Eğitim" class="img-fluid alert-section" data-section="Eğitim">
+                        </div>
+                    </a>
                 </div>
                 <!-- Verimlilik -->
                 <div class="col-lg-4 col-md-6 col-6 d-flex flex-column align-items-start mb-4">
-                    <div class="thumb">
-                        <img src="verimlilik.png" alt="Verimlilik" class="img-fluid">
-                    </div>
+                    <a href="#">
+                        <div class="thumb">
+                            <img src="verimlilik.png" alt="Verimlilik" class="img-fluid alert-section" data-section="Verimlilik">
+                        </div>
+                    </a>
                 </div>
             </div>
             
             <!-- Canlı Görüşme ve Özgeçmiş -->
             <div class="row align-items-center justify-content-center mt-4">
                 <div class="col-md-2 col-6 text-center">
-                    <div class="action">
-                        <img src="CANLI GÖRÜŞME1.png" alt="Canlı Görüşme" class="action-icon img-fluid">
-                    </div>
+                    <a href="#">
+                        <div class="action">
+                            <img src="CANLI GÖRÜŞME1.png" alt="Canlı Görüşme" class="action-icon img-fluid alert-section" data-section="Canlı Görüşme">
+                        </div>
+                    </a>
                 </div>
                 <div class="col-md-2 col-6 text-center">
-                    <div class="action">
-                        <img src="ÖZGEÇMİŞ1.png" alt="Özgeçmiş Yükle" class="action-icon img-fluid">
-                    </div>
+                    <a href="#">
+                        <div class="action">
+                            <img src="ÖZGEÇMİŞ1.png" alt="Özgeçmiş Yükle" class="action-icon img-fluid">
+                        </div>
+                    </a>
                 </div>
             </div>
         </div>
     </div>
-    
     <!-- Bootstrap JS -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script>
+        // Alert için Event Listener
+        document.querySelectorAll('.alert-section').forEach(function (element) {
+            element.addEventListener('click', function () {
+                const sectionName = this.getAttribute('data-section');
+                alert(`${sectionName} kısmı üzerinde çalışmalarımız devam ediyor.`);
+            });
+        });
+    </script>
 </body>
 </html>
