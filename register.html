@@ -4,85 +4,98 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Kayıt Ol</title>
-    <!-- Bootstrap CSS -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <style>
-        .form-check-label a {
-            color: #007bff;
-            text-decoration: none;
+        .register-option {
+            text-align: center;
+            margin-top: 100px;
         }
-        .form-check-label a:hover {
-            text-decoration: underline;
+
+        .option {
+            display: inline-block;
+            margin: 30px;
+            padding: 30px;
+            border: 2px solid #ccc;
+            border-radius: 15px;
+            cursor: pointer;
+            transition: transform 0.2s, box-shadow 0.2s;
+            width: 200px;
+            height: 250px;
+        }
+
+        .option img {
+            width: 120px;
+            height: 120px;
+            margin-bottom: 10px;
+        }
+
+        .option p {
+            font-size: 1.2rem; /* Daha büyük yazı */
+            font-weight: bold;
+        }
+
+        .option:hover {
+            transform: scale(1.15); /* Daha fazla büyüme efekti */
+            box-shadow: 0 0 15px rgba(0, 0, 0, 0.3);
+        }
+
+        .back-button {
+            position: fixed;
+            top: 20px;
+            left: 20px;
+            z-index: 1000;
+        }
+
+        .page-title {
+            font-size: 2.5rem; /* Başlık boyutunu artırdım */
+            margin-top: 4rem;
+            text-align: center;
+        }
+
+        @media (max-width: 768px) {
+            .page-title {
+                font-size: 1.8rem; /* Mobilde daha küçük başlık */
+                margin-top: 6rem; /* Geri dön butonu ile çakışmayı önler */
+            }
+
+            .back-button {
+                top: 10px; /* Butonun mobilde yukarı kayması */
+                left: 10px; /* Mobilde biraz daha dar alana oturması */
+            }
+
+            .option {
+                width: 150px;
+                height: 200px;
+                padding: 20px;
+            }
+
+            .option img {
+                width: 100px;
+                height: 100px;
+            }
+
+            .option p {
+                font-size: 1rem;
+            }
         }
     </style>
 </head>
 <body>
-    <div class="container d-flex justify-content-center align-items-center" style="height: 100vh;">
-        <div class="card p-4 shadow-lg" style="width: 100%; max-width: 400px;">
-            <h2 class="text-center mb-4">Hesap Oluştur</h2>
-            <form action="register-process.php" method="POST" onsubmit="return validateForm()">
-                <!-- Ad ve Soyad -->
-                <div class="mb-3">
-                    <label for="firstName" class="form-label">Ad:</label>
-                    <input type="text" id="firstName" name="firstName" class="form-control" placeholder="Adınızı girin" required>
-                </div>
-                <div class="mb-3">
-                    <label for="lastName" class="form-label">Soyad:</label>
-                    <input type="text" id="lastName" name="lastName" class="form-control" placeholder="Soyadınızı girin" required>
-                </div>
-                <!-- E-posta -->
-                <div class="mb-3">
-                    <label for="email" class="form-label">E-posta:</label>
-                    <input type="email" id="email" name="email" class="form-control" placeholder="E-posta adresinizi girin" required>
-                </div>
-                <!-- Şifre ve Şifre Tekrar -->
-                <div class="mb-3">
-                    <label for="password" class="form-label">Şifre:</label>
-                    <input type="password" id="password" name="password" class="form-control" placeholder="Şifrenizi oluşturun" required>
-                </div>
-                <div class="mb-3">
-                    <label for="confirmPassword" class="form-label">Şifre Tekrar:</label>
-                    <input type="password" id="confirmPassword" name="confirmPassword" class="form-control" placeholder="Şifrenizi tekrar girin" required>
-                </div>
-                <!-- Kullanım Şartları -->
-                <div class="form-check mb-3">
-                    <input type="checkbox" class="form-check-input" id="terms" required>
-                    <label for="terms" class="form-check-label">
-                        <a href="kullanim-sartlari.html" target="_blank" onclick="openSmallWindow(event)">Kullanım şartlarını</a> kabul ediyorum.
-                    </label>
-                    
-                </div>
-                <!-- Kayıt Ol Butonu -->
-                <button type="submit" class="btn btn-success w-100">Kayıt Ol</button>
-            </form>
-            <p class="mt-4 text-center">Zaten bir hesabınız var mı? <a href="girisyap.html" class="text-decoration-none">Giriş Yapın</a></p>
+    <a href="girisyap.html" class="btn btn-secondary back-button">Geri</a>
+    <div class="container">
+        <h1 class="page-title">Kayıt Türü Seçin</h1>
+        <div class="register-option">
+            <!-- İşveren Kaydı -->
+            <div class="option" onclick="location.href='employer_register.php'">
+                <img src="isveren_kayit.png" alt="İşveren">
+                <p>İşveren Kaydı</p>
+            </div>
+            <!-- Kariyer Girişi -->
+            <div class="option" onclick="location.href='career_register.php'">
+                <img src="kariyer_kayit.png" alt="Kariyer">
+                <p>Kariyer Kaydı</p>
+            </div>
         </div>
     </div>
-    <!-- Bootstrap JS -->
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
-    <script>
-        function validateForm() {
-            const password = document.getElementById('password').value;
-            const confirmPassword = document.getElementById('confirmPassword').value;
-
-            if (password !== confirmPassword) {
-                alert('Şifreler eşleşmiyor. Lütfen tekrar kontrol edin.');
-                return false;
-            }
-            return true;
-        }
-    </script>
-    <script>
-        function openSmallWindow(event) {
-            event.preventDefault(); // Varsayılan tıklama davranışını durdur
-            window.open(
-                'kullanim-sartlari.html', 
-                'Kullanım Şartları', 
-                'width=500,height=600,top=100,left=100,scrollbars=yes,resizable=yes'
-            );
-        }
-    </script>
-    
 </body>
 </html>
-

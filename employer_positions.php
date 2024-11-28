@@ -51,8 +51,36 @@ $sectors = $sectorStmt->fetchAll(PDO::FETCH_ASSOC);
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>İş İlanları</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        .back-button {
+            position: fixed;
+            top: 20px;
+            left: 20px;
+            z-index: 1000;
+        }
+
+        .page-title {
+            font-size: 2rem;
+            margin-top: 4rem;
+            text-align: center;
+        }
+
+        @media (max-width: 768px) {
+            .page-title {
+                font-size: 1.5rem; /* Mobilde daha küçük başlık */
+                margin-top: 6rem; /* Geri dön butonu ile çakışmayı önler */
+            }
+
+            .back-button {
+                top: 10px; /* Butonun mobilde yukarı kayması */
+                left: 10px; /* Mobilde biraz daha dar alana oturması */
+            }
+        }
+    </style>
 </head>
 <body>
+    <!-- Geri Dön Butonu -->
+    <a href="index.php" class="btn btn-secondary back-button">Ana Sayfa</a>
     <div class="container mt-5">
         <h1 class="text-center mb-4">İş İlanları</h1>
 
@@ -105,8 +133,6 @@ $sectors = $sectorStmt->fetchAll(PDO::FETCH_ASSOC);
                 <p class="text-muted">Henüz iş ilanı oluşturulmamış.</p>
             <?php endif; ?>
         </div>
-
-        <a href="index.php" class="btn btn-secondary mt-4">Ana Sayfaya Geri Dön</a>
     </div>
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
