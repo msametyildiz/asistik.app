@@ -38,7 +38,7 @@ session_start(); // Oturum başlat
             <div class="row">
                 <div class="col-xl-12 text-center">
                     <div class="logo mb-4">
-                        <img src="ASİST LOGO.png" alt="Asistik Logo" class="responsive-logo" style="padding-bottom: 2%;">
+                        <img src="ASİST LOGO-Photo.png" alt="Asistik Logo" class="responsive-logo" style="padding-bottom: 2%;">
                     </div>
                 </div>
             </div>
