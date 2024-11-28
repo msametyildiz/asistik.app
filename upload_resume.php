@@ -16,6 +16,18 @@ if (!isset($_SESSION['logged_in']) || !$_SESSION['logged_in']) {
 $user_id = $_SESSION['user_id'];
 $user_name = $_SESSION['user_name'];
 
+// Kullanıcı bilgilerini çek
+$stmt = $db->prepare("SELECT email, phone FROM users WHERE id = ?");
+$stmt->execute([$user_id]);
+$userData = $stmt->fetch(PDO::FETCH_ASSOC);
+
+if (!$userData) {
+    $error_message = "Kullanıcı bilgileri bulunamadı.";
+} else {
+    $userEmail = $userData['email'];
+    $userPhone = $userData['phone'];
+}
+
 // Dosya yükleme işlemi
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $uploadDir = 'resumes/'; // Kayıt dizini
@@ -32,7 +44,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $error_message = "Geçersiz dosya formatı! Sadece PDF, DOC, DOCX, PNG ve JPG formatları kabul edilir.";
     } else {
         // Dosya adı
-        $newFileName = $user_name . '_cv.' . $fileExt;
+        $newFileName = uniqid($user_name . "_cv_", true) . '.' . $fileExt;
         $targetPath = $uploadDir . $newFileName;
 
         // Dosya yükle
@@ -53,14 +65,17 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 $mail->SMTPSecure = PHPMailer::ENCRYPTION_STARTTLS;
                 $mail->Port = 587;
 
+                $mail->CharSet = 'UTF-8'; // Türkçe karakter desteği
+
                 $mail->setFrom('samet.saray.06@gmail.com', 'Asistik'); // Değiştir
                 $mail->addAddress('samet.saray.06@gmail.com'); // Kendi e-posta adresiniz
-
 
                 $mail->isHTML(true);
                 $mail->Subject = 'Yeni Özgeçmiş Yüklemesi';
                 $mail->Body = "
                     <p><strong>Yükleyen Kullanıcı:</strong> {$user_name}</p>
+                    <p><strong>E-posta:</strong> {$userEmail}</p>
+                    <p><strong>Telefon:</strong> {$userPhone}</p>
                     <p>Özgeçmiş Dosyası ektedir.</p>
                 ";
 
@@ -77,6 +92,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     }
 }
 ?>
+
 
 <!DOCTYPE html>
 <html lang="tr">
@@ -131,7 +147,10 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 <p>Yükleyeceğiniz özgeçmiş şu formatlarda olmalıdır:</p>
                 <ul>
                     <li><strong>Dosya formatı:</strong> PDF, DOC, DOCX, PNG, JPG</li>
-                    <li><strong>İçerik:</strong> İsim, Soyisim, İletişim Bilgileri, Eğitim, İş Deneyimi</li>
+                    <li>
+                        <strong style="font-weight: bold;">İçerik:</strong> 
+                        <span style="color: #c20808; font-weight: bold;">İsim, Soyisim, İletişim Bilgileri, Eğitim, İş Deneyimi, Fotoğraf</span>
+                    </li>
                 </ul>
                 <form method="POST" enctype="multipart/form-data">
                     <div class="mb-3">
