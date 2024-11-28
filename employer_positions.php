@@ -4,7 +4,7 @@ require 'config.php';
 
 // Oturum kontrolü
 if (!isset($_SESSION['logged_in']) || !$_SESSION['logged_in']) {
-    header('Location: girisyap.html');
+    header('Location: girisyap.php');
     exit;
 }
 

@@ -6,7 +6,7 @@ $target = isset($_GET['target']) ? $_GET['target'] : 'index.php';
 
 // Oturum açık değilse giriş sayfasına yönlendir
 if (!isset($_SESSION['logged_in']) || !$_SESSION['logged_in']) {
-    header("Location: girisyap.html?redirect_to=$target");
+    header("Location: girisyap.php?redirect_to=$target");
     exit;
 }
 

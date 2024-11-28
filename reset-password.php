@@ -8,7 +8,7 @@ if (isset($_GET['token']) && !empty($_GET['token'])) {
 } else {
     echo "<script>
         alert('Bu sıfırlama bağlantısı geçersiz.');
-        window.location.href = 'forgot-password.html';
+        window.location.href = 'forgot-password.php';
     </script>";
     exit;
 }
@@ -22,7 +22,7 @@ try {
     if (!$resetRequest) {
         echo "<script>
             alert('Bu sıfırlama bağlantısı geçersiz.');
-            window.location.href = 'forgot-password.html';
+            window.location.href = 'forgot-password.php';
         </script>";
         exit;
     }
@@ -35,7 +35,7 @@ try {
     if ($interval->h >= 1 || $interval->days > 0) { // 1 saatten eski veya bir gün önceki token'ları geçersiz kıl
         echo "<script>
             alert('Bu sıfırlama bağlantısının süresi dolmuş.');
-            window.location.href = 'forgot-password.html';
+            window.location.href = 'forgot-password.php';
         </script>";
         exit;
     }

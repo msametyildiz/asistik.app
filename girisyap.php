@@ -28,8 +28,8 @@
                 
                 <button type="submit" class="btn btn-primary w-100">Giriş Yap</button>
             </form>
-            <a href="forgot-password.html" class="text-decoration-none d-block mt-3">Şifrenizi mi unuttunuz?</a>
-            <p class="mt-4 text-center">Hesabınız yok mu? <a href="register.html" class="text-decoration-none">Kayıt Olun</a></p>
+            <a href="forgot-password.php" class="text-decoration-none d-block mt-3">Şifrenizi mi unuttunuz?</a>
+            <p class="mt-4 text-center">Hesabınız yok mu? <a href="register.php" class="text-decoration-none">Kayıt Olun</a></p>
         </div>
     </div>
     <!-- Bootstrap JS -->

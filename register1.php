@@ -21,6 +21,59 @@
         <div class="card p-4 shadow-lg" style="width: 100%; max-width: 400px;">
             <h2 class="text-center mb-4">Hesap Oluştur</h2>
             <form action="#" method="POST" onsubmit="return validateForm()">
+            <?php
+// Veritabanı bağlantısını sağlayın
+include 'config.php'; // Veritabanı bağlantısı için gerekli bilgileri içeren dosya
+
+if ($_POST) {
+    // Formdan gelen verileri alın ve temizleyin
+    $firstName = trim($_POST['firstName']);
+    $lastName = trim($_POST['lastName']);
+    $email = trim($_POST['email']);
+    $password = trim($_POST['password']);
+    $confirmPassword = trim($_POST['confirmPassword']);
+
+    // Alanların boş olup olmadığını kontrol edin
+    if (empty($firstName) || empty($lastName) || empty($email) || empty($password) || empty($confirmPassword)) {
+        die("Lütfen tüm alanları doldurun.");
+    }
+
+    // Şifrelerin eşleşip eşleşmediğini kontrol edin
+    if ($password !== $confirmPassword) {
+        die("Şifreler eşleşmiyor. Lütfen tekrar deneyin.");
+    }
+
+    // E-posta geçerliliğini kontrol edin
+    if (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
+        die("Geçersiz bir e-posta adresi girdiniz.");
+    }
+
+    // Şifreyi hashle
+    $hashedPassword = password_hash($password, PASSWORD_BCRYPT);
+
+    try {
+        // Kullanıcıyı veritabanına ekleyin
+        $stmt = $db->prepare("INSERT INTO users (first_name, last_name, email, password) VALUES (?, ?, ?, ?)");
+        $stmt->execute([$firstName, $lastName, $email, $hashedPassword]);
+
+
+        // Kayıt başarılı mesajı
+        echo "<div style='text-align: center; margin-top: 50px;'>";
+        echo "<h3>Kayıt başarılı!</h3>";
+        echo "<a href='girisyap.php' style='text-decoration: none; color: blue;'>Giriş yap</a> sayfasına gidin.";
+        echo "</div>";
+    } catch (PDOException $e) {
+        // Hata kontrolü: Aynı e-posta adresi mevcutsa
+        if ($e->getCode() === '23000') { // UNIQUE constraint violation
+            echo "Bu e-posta adresi zaten kayıtlı.";
+        } else {
+            echo "Bir hata oluştu: " . $e->getMessage();
+        }
+    }
+} else {
+    echo "Bu sayfaya doğrudan erişim yapılamaz.";
+}
+?>
                 <!-- Ad ve Soyad -->
                 <div class="mb-3">
                     <label for="firstName" class="form-label">Ad:</label>
@@ -48,13 +101,13 @@
                 <div class="form-check mb-3">
                     <input type="checkbox" class="form-check-input" id="terms" required>
                     <label for="terms" class="form-check-label">
-                        <a href="kullanim-sartlari.html" target="_blank">Kullanım şartlarını</a> kabul ediyorum.
+                        <a href="kullanim-sartlari.php" target="_blank">Kullanım şartlarını</a> kabul ediyorum.
                     </label>
                 </div>
                 <!-- Kayıt Ol Butonu -->
                 <button type="submit" class="btn btn-success w-100">Kayıt Ol</button>
             </form>
-            <p class="mt-4 text-center">Zaten bir hesabınız var mı? <a href="girisyap.html" class="text-decoration-none">Giriş Yapın</a></p>
+            <p class="mt-4 text-center">Zaten bir hesabınız var mı? <a href="girisyap.php" class="text-decoration-none">Giriş Yapın</a></p>
         </div>
     </div>
     <!-- Bootstrap JS -->
@@ -73,3 +126,4 @@
     </script>
 </body>
 </html>
+

@@ -37,7 +37,7 @@ if ($_POST) {
         // Kayıt başarılı mesajı ve yönlendirme
         echo "<script>
                 alert('Kayıt başarılı! Giriş yap ekranına yönlendiriliyorsunuz.');
-                window.location.href = 'girisyap.html';
+                window.location.href = 'girisyap.php';
               </script>";
         exit; // İşlem tamamlandıktan sonra scripti sonlandır
     } catch (PDOException $e) {

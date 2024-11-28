@@ -28,7 +28,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             $successMessage = "İşleminiz başarılı bir şekilde gerçekleştirilmiştir. Giriş sayfasına yönlendiriliyorsunuz...";
             echo "<script>
                 setTimeout(function() {
-                    window.location.href = 'girisyap.html';
+                    window.location.href = 'girisyap.php';
                 }, 2000);
             </script>";
         } catch (PDOException $e) {
@@ -120,13 +120,13 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 <div class="form-check mb-3">
                     <input type="checkbox" id="terms" class="form-check-input" required>
                     <label for="terms" class="form-check-label">
-                        <a href="kullanim-sartlari.html" target="_blank">Kullanım şartlarını</a> kabul ediyorum.
+                        <a href="kullanim-sartlari.php" target="_blank">Kullanım şartlarını</a> kabul ediyorum.
                     </label>
                 </div>
                 <!-- Kayıt Ol Butonu -->
                 <button type="submit" class="btn btn-success w-100">Kayıt Ol</button>
             </form>
-            <p class="mt-4 text-center">Zaten bir hesabınız var mı? <a href="girisyap.html" class="text-decoration-none">Giriş Yapın</a></p>
+            <p class="mt-4 text-center">Zaten bir hesabınız var mı? <a href="girisyap.php" class="text-decoration-none">Giriş Yapın</a></p>
         </div>
     </div>
     <!-- Bootstrap JS -->

@@ -5,7 +5,7 @@ session_start(); // Oturum başlat
 
 // Kullanıcı giriş kontrolü
 if (!isset($_SESSION['user_id'])) {
-    header('Location: girisyap.html'); // Oturum yoksa giriş sayfasına yönlendir
+    header('Location: girisyap.php'); // Oturum yoksa giriş sayfasına yönlendir
     exit;
 }
 
@@ -13,7 +13,7 @@ if (!isset($_SESSION['user_id'])) {
 $role = $_SESSION['role'] ?? '';
 
 if ($role !== 'employer' && $role !== 'job-seeker') {
-    header('Location: girisyap.html'); // Geçerli rol değilse yönlendir
+    header('Location: girisyap.php'); // Geçerli rol değilse yönlendir
     exit;
 }
 
