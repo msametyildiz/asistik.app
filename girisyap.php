@@ -7,6 +7,8 @@
     <!-- Bootstrap CSS -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <script src="https://cdn.jsdelivr.net/npm/crypto-js@4.1.1/crypto-js.min.js"></script> <!-- Şifreleme için -->
+    <link rel="shortcut icon" type="image/x-icon" href="pic/ASİST LOGO-Photo.png">
+
 </head>
 <body>
     <div class="container d-flex justify-content-center align-items-center" style="height: 100vh;">

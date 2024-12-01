@@ -1,5 +1,4 @@
 <?php
-
 require 'vendor/autoload.php';
 
 use Samet\Asistik\Mailer;
@@ -16,15 +15,20 @@ session_start(); // Oturum başlat
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="styles.css">
     <link rel="shortcut icon" type="image/x-icon" href="pic/ASİST LOGO-Photo.png">
-
 </head>
 <body>
     <!-- Header -->
     <div class="header-area">
         <div class="top-right-button text-end" style="padding-top: 1%; padding-right:1%;">
             <?php if (isset($_SESSION['user_name'])): ?>
-                <span class="me-3"> <strong><?= htmlspecialchars($_SESSION['user_name']); ?></strong></span>
-                <a href="logout.php" class="btn btn-danger">Çıkış Yap</a>
+                <div class="dropdown">
+                    <button class="btn btn-info dropdown-toggle" type="button" id="userDropdown" data-bs-toggle="dropdown" aria-expanded="false">
+                        <?= htmlspecialchars($_SESSION['user_name']); ?>
+                    </button>
+                    <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="userDropdown">
+                        <li><a class="dropdown-item" href="logout.php">Çıkış Yap</a></li>
+                    </ul>
+                </div>
             <?php else: ?>
                 <a href="girisyap.php" class="btn" style="background-color: #80d0d7;">Giriş Yap</a>
             <?php endif; ?>
