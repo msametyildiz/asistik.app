@@ -49,6 +49,14 @@
     }
 }
 
+@media (max-width: 576px) {
+    .row > div {
+        flex: 0 0 100% !important; /* Daha küçük ekranlarda tam genişlik */
+        max-width: 100% !important;
+        margin-bottom: 20px; /* Öğeler arasında boşluk ekle */
+    }
+}
+
 /* Orta Sütunlar (Koçluk ve İşveren) */
 .narrow-column {
     max-width: 25% !important; /* Orta sütunun genişliğini %25'e düşür */
@@ -61,6 +69,67 @@
         flex: 0 0 40% !important;
     }
 }
+
+/* Görsellerin ve Yönlendirmelerin Duyarlı Tasarımı */
+.row.justify-content-center {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-wrap: wrap; /* Sarmalanmayı etkinleştir */
+    gap: 15px; /* Öğeler arasında boşluk */
+}
+
+.row.justify-content-center img {
+    max-width: 100%; /* Görsel genişliği %100'ü geçmesin */
+    height: auto; /* Oranları koru */
+    border-radius: 8px; /* Daha estetik görünüm için kenar yuvarlama */
+    box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1); /* Hafif bir gölge efekti */
+}
+
+.row.justify-content-center a {
+    display: inline-block;
+    text-decoration: none;
+    color: #007bff; /* Link rengi */
+    font-size: 1rem; /* Varsayılan font boyutu */
+    padding: 8px 12px; /* İç boşluk */
+    border: 1px solid #ddd; /* Çerçeve */
+    border-radius: 6px;
+    transition: background-color 0.3s, color 0.3s; /* Geçiş efektleri */
+}
+
+.row.justify-content-center a:hover {
+    background-color: #007bff;
+    color: #fff; /* Üzerine gelince renk değişimi */
+}
+
+/* Mobil Uyumu */
+@media (max-width: 768px) {
+    .row.justify-content-center {
+        gap: 10px; /* Küçük ekranlarda boşluk azalt */
+    }
+
+    .row.justify-content-center img {
+        max-width: 90%; /* Görseller biraz daha küçülsün */
+    }
+
+    .row.justify-content-center a {
+        font-size: 0.9rem; /* Daha küçük font boyutu */
+        padding: 6px 10px; /* İç boşlukları azalt */
+    }
+}
+
+@media (max-width: 576px) {
+    .row.justify-content-center img {
+        max-width: 80%; /* Daha küçük ekranlarda daha da küçül */
+    }
+
+    .row.justify-content-center a {
+        font-size: 0.8rem; /* Çok küçük ekranlar için */
+        padding: 4px 8px; /* Daha kompakt hale getir */
+    }
+}
+
+/* Sabit Buton */
 .top-right-button {
     position: fixed; /* Sabit bir pozisyonda tut */
     z-index: 1000; /* Üst katmanda görünmesini sağla */
