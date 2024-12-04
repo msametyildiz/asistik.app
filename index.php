@@ -4,6 +4,7 @@ require 'vendor/autoload.php';
 use Samet\Asistik\Mailer;
 
 session_start();
+$sidebarOpen = isset($_SESSION['user_name']); // Sidebar durumu kullanıcı girişine göre belirleniyor.
 ?>
 <!DOCTYPE html>
 <html lang="tr">
@@ -17,6 +18,66 @@ session_start();
     <link rel="stylesheet" href="styles.css">
     <link rel="shortcut icon" type="image/x-icon" href="pic/asistik_logo.png">
     <style>
+        .sidebar {
+            position: fixed;
+            width: 250px;
+            height: 100vh;
+            background-color: #f1f1f1;
+            overflow-x: hidden;
+            transition: 0.3s ease all;
+            z-index: 100;
+            left: -250px;
+            /* Kapalı halde solda gizlenir */
+        }
+
+        .sidebar.open {
+            left: 0;
+            /* Açık durumda görünür */
+        }
+
+        .sidebar a {
+            display: block;
+            padding: 15px;
+            text-decoration: none;
+            font-size: 18px;
+            color: #333;
+            transition: 0.3s;
+        }
+
+        .sidebar a:hover {
+            background-color: #ddd;
+            color: #000;
+        }
+
+        .main-content {
+            transition: 0.3s ease margin-left;
+            text-align: center;
+            margin: 0 auto;
+            /* Varsayılan olarak ortalanır */
+        }
+
+        .header-area {
+            background-color: #f8f9fa;
+            padding: 1rem 0;
+            transition: 0.3s ease margin-left;
+        }
+
+        @media screen and (max-width: 768px) {
+            .sidebar {
+                left: -250px;
+                /* Küçük ekranlarda varsayılan olarak gizli */
+            }
+
+            .sidebar.open {
+                left: 0;
+            }
+
+            .main-content,
+            .header-area {
+                margin-left: 0;
+            }
+        }
+
         .thumb img {
             transition: transform 0.3s ease;
         }
@@ -44,37 +105,64 @@ session_start();
         .action img:hover {
             transform: scale(1.1);
         }
+
+        .sidebar-user {
+            padding: 10px 15px;
+            background-color: #f8f9fa;
+            /* Sidebar'ın üst kısmına hafif gri arka plan */
+            text-align: center;
+            /* Metni ortalar */
+            border-bottom: 1px solid #ddd;
+            /* Ayrım çizgisi */
+        }
+
+        .sidebar-user p {
+            margin: 0;
+            font-size: 16px;
+            color: #333;
+        }
+
+        .sidebar-user .btn {
+            display: block;
+            padding: 10px;
+            font-size: 16px;
+            border-radius: 5px;
+            background-color: #007bff;
+            color: #fff;
+            text-decoration: none;
+        }
     </style>
 </head>
 
 <body>
-    
+    <!-- Sidebar -->
+    <div id="mySidebar" class="sidebar <?= $sidebarOpen ? 'open' : ''; ?>">
+        <!-- Kullanıcı Durumuna Göre İçerik -->
+        <div class="sidebar-user">
+            <?php if ($sidebarOpen): ?>
+                <p class="text-center mt-3"><strong><?= htmlspecialchars($_SESSION['user_name']); ?></strong></p>
+            <?php else: ?>
+                <a href="girisyap.php" class="btn btn-info w-100 mt-3 text-center">Giriş Yap</a>
+            <?php endif; ?>
+        </div>
+        <hr> <!-- Ayrım çizgisi -->
+
+        <!-- Sidebar Menü -->
+        <a href="index.php"><i class="fas fa-home"></i> Anasayfa</a>
+        <a href="employer_positions.php"><i class="fas fa-briefcase"></i> İşveren</a>
+        <a href="career.php"><i class="fas fa-chart-line"></i> Kariyer</a>
+        <a href="#"><i class="fas fa-info-circle"></i> Hakkımızda</a>
+        <a href="logout.php" class="text-danger"><i class="fas fa-sign-out-alt"></i> Çıkış Yap</a>
+    </div>
+
+
     <!-- Navbar -->
-    <nav class="navbar navbar-expand-lg navbar-light bg-light">
+    <nav class="navbar navbar-expand-lg navbar-light bg-light header-area" <?= $sidebarOpen ? 'style="margin-left: 250px;"' : ''; ?>>
+        <button class="btn" id="sidebarToggle">&#9776;</button>
         <div class="container-fluid">
-            <a class="navbar-brand" href="index.php">
-                <img src="pic/asistik_logo.png" alt="Asistik Logo" height="30">
-            </a>
-            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
-                <span class="navbar-toggler-icon"></span>
-            </button>
             <div class="collapse navbar-collapse" id="navbarNav">
-                <ul class="navbar-nav me-auto mb-2 mb-lg-0">
-                    <!--<li class="nav-item">
-                        <a class="nav-link active" aria-current="page" href="index.php">Anasayfa</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="employer_positions.php">İşveren</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="career.php">Kariyer</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="#">Hakkımızda</a>
-                    </li>-->
-                </ul>
-                <div class="d-flex">
-                    <?php if (isset($_SESSION['user_name'])): ?>
+                <!--<div class="d-flex">
+                    <?php if ($sidebarOpen): ?>
                         <div class="dropdown">
                             <button class="btn btn-info dropdown-toggle" type="button" id="userDropdown" data-bs-toggle="dropdown" aria-expanded="false">
                                 <?= htmlspecialchars($_SESSION['user_name']); ?>
@@ -86,17 +174,16 @@ session_start();
                     <?php else: ?>
                         <a href="girisyap.php" class="btn btn-info">Giriş Yap</a>
                     <?php endif; ?>
-                </div>
+                </div>-->
             </div>
         </div>
     </nav>
 
     <!-- Main Content -->
-    <div class="container my-5">
+    <div class="main-content container my-5" <?= $sidebarOpen ? 'style="margin-left: 250px;"' : ''; ?>>
         <div class="text-center mb-5">
             <img src="pic/asistik_logo.png" alt="Asistik Logo" class="responsive-logo">
         </div>
-
         <div class="row gx-1 gy-4 custom-grid">
             <!-- Responsive grid items -->
             <?php
@@ -119,7 +206,6 @@ session_start();
                 </div>
             <?php endforeach; ?>
         </div>
-
         <div class="row justify-content-center mt-4">
             <div class="col-6 col-md-2 text-center">
                 <a href="#" class="action alert-section" data-section="Canlı Görüşme">
@@ -137,12 +223,30 @@ session_start();
     <!-- Bootstrap JS -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
     <script>
-        document.querySelectorAll('.alert-section').forEach(function (element) {
-            element.addEventListener('click', function (event) {
+        document.querySelectorAll('.alert-section').forEach(function(element) {
+            element.addEventListener('click', function(event) {
                 event.preventDefault();
                 const sectionName = this.getAttribute('data-section');
                 alert(`${sectionName} kısmı üzerinde çalışmalarımız devam ediyor.`);
             });
+        });
+        const sidebar = document.getElementById("mySidebar");
+        const mainContent = document.querySelector(".main-content");
+        const headerArea = document.querySelector(".header-area");
+        const toggleButton = document.getElementById("sidebarToggle");
+
+        toggleButton.addEventListener("click", () => {
+            sidebar.classList.toggle("open");
+
+            if (sidebar.classList.contains("open")) {
+                mainContent.style.marginLeft = "250px";
+                headerArea.style.marginLeft = "250px";
+            } else {
+                mainContent.style.marginLeft = "0";
+                headerArea.style.marginLeft = "0";
+                mainContent.style.textAlign = "center"; // Ortalamayı tekrar uygular
+                mainContent.style.margin = "0 auto"; // Varsayılan margin'i tekrar uygular
+            }
         });
     </script>
 </body>
