@@ -24,7 +24,8 @@ $sidebarOpen = isset($_SESSION['user_name']); // Sidebar durumu kullanıcı giri
             height: 100vh;
             background-color: #f1f1f1;
             overflow-x: hidden;
-            transition: 0.3s ease all;
+            transition: left 0.7s ease-in-out;
+
             z-index: 100;
             left: -250px;
             /* Kapalı halde solda gizlenir */
@@ -131,6 +132,13 @@ $sidebarOpen = isset($_SESSION['user_name']); // Sidebar durumu kullanıcı giri
             color: #fff;
             text-decoration: none;
         }
+
+        .custom-grid {
+            margin: 0 auto;
+            /* Ortalamak için */
+            max-width: 1200px;
+            /* İsteğe bağlı olarak grid genişliğini sınırla */
+        }
     </style>
 </head>
 
@@ -151,17 +159,23 @@ $sidebarOpen = isset($_SESSION['user_name']); // Sidebar durumu kullanıcı giri
         <a href="index.php"><i class="fas fa-home"></i> Anasayfa</a>
         <a href="employer_positions.php"><i class="fas fa-briefcase"></i> İşveren</a>
         <a href="career.php"><i class="fas fa-chart-line"></i> Kariyer</a>
-        <a href="#"><i class="fas fa-info-circle"></i> Hakkımızda</a>
-        <a href="logout.php" class="text-danger"><i class="fas fa-sign-out-alt"></i> Çıkış Yap</a>
+        <!--<a href="#"><i class="fas fa-info-circle"></i> Hakkımızda</a>-->
+        <?php if ($sidebarOpen): ?>
+            <!-- Kullanıcı Girişi Yapıldıysa "Çıkış Yap" Butonu -->
+            <a href="logout.php" class="btn btn-danger w-100 mt-3 text-center">
+                <i class="fas fa-sign-out-alt"></i> Çıkış Yap
+            </a>
+        <?php endif; ?>
+
     </div>
 
 
     <!-- Navbar -->
     <nav class="navbar navbar-expand-lg navbar-light bg-light header-area" <?= $sidebarOpen ? 'style="margin-left: 250px;"' : ''; ?>>
         <button class="btn" id="sidebarToggle">&#9776;</button>
-        <div class="container-fluid">
+        <!-- <div class="container-fluid">
             <div class="collapse navbar-collapse" id="navbarNav">
-                <!--<div class="d-flex">
+                <div class="d-flex">
                     <?php if ($sidebarOpen): ?>
                         <div class="dropdown">
                             <button class="btn btn-info dropdown-toggle" type="button" id="userDropdown" data-bs-toggle="dropdown" aria-expanded="false">
@@ -174,17 +188,18 @@ $sidebarOpen = isset($_SESSION['user_name']); // Sidebar durumu kullanıcı giri
                     <?php else: ?>
                         <a href="girisyap.php" class="btn btn-info">Giriş Yap</a>
                     <?php endif; ?>
-                </div>-->
+                </div>
             </div>
-        </div>
+        </div>-->
     </nav>
 
     <!-- Main Content -->
     <div class="main-content container my-5" <?= $sidebarOpen ? 'style="margin-left: 250px;"' : ''; ?>>
         <div class="text-center mb-5">
-            <img src="pic/asistik_logo.png" alt="Asistik Logo" class="responsive-logo">
+            <img src="pic/asist_logo.svg" alt="Asistik Logo" class="responsive-logo">
         </div>
-        <div class="row gx-1 gy-4 custom-grid">
+        <div id="responsiveDiv" class="row gx-1 gy-4 custom-grid d-flex justify-content-center col-6">
+
             <!-- Responsive grid items -->
             <?php
             $sections = [
@@ -206,7 +221,7 @@ $sidebarOpen = isset($_SESSION['user_name']); // Sidebar durumu kullanıcı giri
                 </div>
             <?php endforeach; ?>
         </div>
-        <div class="row justify-content-center mt-4">
+        <div class="row justify-content-center mt-4" style="padding-top: 3%;">
             <div class="col-6 col-md-2 text-center">
                 <a href="#" class="action alert-section" data-section="Canlı Görüşme">
                     <img src="pic/canli_gorusme.svg" alt="Canlı Görüşme">
@@ -214,7 +229,7 @@ $sidebarOpen = isset($_SESSION['user_name']); // Sidebar durumu kullanıcı giri
             </div>
             <div class="col-6 col-md-2 text-center">
                 <a href="redirect_check.php?target=upload_resume.php" class="action">
-                    <img src="pic/ozgecmis.png" alt="Özgeçmiş Yükle">
+                    <img src="pic/ozgecmis.svg" alt="Özgeçmiş Yükle">
                 </a>
             </div>
         </div>
@@ -248,6 +263,24 @@ $sidebarOpen = isset($_SESSION['user_name']); // Sidebar durumu kullanıcı giri
                 mainContent.style.margin = "0 auto"; // Varsayılan margin'i tekrar uygular
             }
         });
+
+        function updateClassBasedOnViewport() {
+            const div = document.getElementById("responsiveDiv");
+            const width = window.innerWidth;
+            const height = window.innerHeight;
+
+            if (width > 992 && height > 616) {
+                div.className = "row gx-1 gy-4 custom-grid d-flex justify-content-center col-6";
+            } else {
+                div.className = "row gx-1 gy-4 custom-grid";
+            }
+        }
+
+        // Sayfa yüklendiğinde kontrol et
+        window.addEventListener("load", updateClassBasedOnViewport);
+
+        // Pencere yeniden boyutlandırıldığında kontrol et
+        window.addEventListener("resize", updateClassBasedOnViewport);
     </script>
 </body>
 

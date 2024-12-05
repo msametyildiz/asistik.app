@@ -148,3 +148,118 @@
         padding: 4px 8px; /* Daha küçük padding */
     }
 }
+
+.sidebar {
+    position: fixed;
+    width: 250px;
+    height: 100vh;
+    background-color: #f1f1f1;
+    overflow-x: hidden;
+    transition: left 0.7s ease-in-out;
+
+    z-index: 100;
+    left: -250px;
+    /* Kapalı halde solda gizlenir */
+}
+
+.sidebar.open {
+    left: 0;
+    /* Açık durumda görünür */
+}
+
+.sidebar a {
+    display: block;
+    padding: 15px;
+    text-decoration: none;
+    font-size: 18px;
+    color: #333;
+    transition: 0.3s;
+}
+
+.sidebar a:hover {
+    background-color: #ddd;
+    color: #000;
+}
+
+.main-content {
+    transition: 0.3s ease margin-left;
+    text-align: center;
+    margin: 0 auto;
+    /* Varsayılan olarak ortalanır */
+}
+
+.header-area {
+    background-color: #f8f9fa;
+    padding: 1rem 0;
+    transition: 0.3s ease margin-left;
+}
+
+@media screen and (max-width: 768px) {
+    .sidebar {
+        left: -250px;
+        /* Küçük ekranlarda varsayılan olarak gizli */
+    }
+
+    .sidebar.open {
+        left: 0;
+    }
+
+    .main-content,
+    .header-area {
+        margin-left: 0;
+    }
+}
+
+.thumb img {
+    transition: transform 0.3s ease;
+}
+
+.thumb img:hover {
+    transform: scale(1.05);
+}
+
+.header-area {
+    background-color: #f8f9fa;
+    padding: 1rem 0;
+}
+
+.responsive-logo {
+    max-width: 200px;
+    height: auto;
+}
+
+.action img {
+    max-width: 100px;
+    height: auto;
+    transition: transform 0.3s ease;
+}
+
+.action img:hover {
+    transform: scale(1.1);
+}
+
+.sidebar-user {
+    padding: 10px 15px;
+    background-color: #f8f9fa;
+    /* Sidebar'ın üst kısmına hafif gri arka plan */
+    text-align: center;
+    /* Metni ortalar */
+    border-bottom: 1px solid #ddd;
+    /* Ayrım çizgisi */
+}
+
+.sidebar-user p {
+    margin: 0;
+    font-size: 16px;
+    color: #333;
+}
+
+.sidebar-user .btn {
+    display: block;
+    padding: 10px;
+    font-size: 16px;
+    border-radius: 5px;
+    background-color: #007bff;
+    color: #fff;
+    text-decoration: none;
+}
