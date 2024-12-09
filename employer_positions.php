@@ -100,55 +100,7 @@ $sectors = $sectorStmt->fetchAll(PDO::FETCH_ASSOC);
     </style>
 </head>
 <body>
-    <!-- Sidebar -->
-    <div id="mySidebar" class="sidebar <?= $sidebarOpen ? 'open' : ''; ?>">
-        <!-- Kullanıcı Durumuna Göre İçerik -->
-        <div class="sidebar-user">
-            <?php if ($sidebarOpen): ?>
-                <p class="text-center mt-3"><strong><?= htmlspecialchars($_SESSION['user_name']); ?></strong></p>
-            <?php else: ?>
-                <a href="girisyap.php" class="btn btn-info w-100 mt-3 text-center">Giriş Yap</a>
-            <?php endif; ?>
-        </div>
-        <hr> <!-- Ayrım çizgisi -->
-
-        <!-- Sidebar Menü -->
-        <a href="index.php"><i class="fas fa-home"></i> Anasayfa</a>
-        <a href="employer_positions.php"><i class="fas fa-briefcase"></i> İşveren</a>
-        <a href="career.php"><i class="fas fa-chart-line"></i> Kariyer</a>
-        <!--<a href="#"><i class="fas fa-info-circle"></i> Hakkımızda</a>-->
-        <?php if ($sidebarOpen): ?>
-            <!-- Kullanıcı Girişi Yapıldıysa "Çıkış Yap" Butonu -->
-            <a href="logout.php" class="btn btn-danger w-100 mt-3 text-center">
-                <i class="fas fa-sign-out-alt"></i> Çıkış Yap
-            </a>
-        <?php endif; ?>
-
-    </div>
-
-
-    <!-- Navbar -->
-    <nav class="navbar navbar-expand-lg navbar-light bg-light header-area" <?= $sidebarOpen ? 'style="margin-left: 250px;"' : ''; ?>>
-        <button class="btn" id="sidebarToggle">&#9776;</button>
-        <div class="container-fluid">
-            <div class="collapse navbar-collapse" id="navbarNav">
-                <!--<div class="d-flex">
-                    <?php if ($sidebarOpen): ?>
-                        <div class="dropdown">
-                            <button class="btn btn-info dropdown-toggle" type="button" id="userDropdown" data-bs-toggle="dropdown" aria-expanded="false">
-                                <?= htmlspecialchars($_SESSION['user_name']); ?>
-                            </button>
-                            <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="userDropdown">
-                                <li><a class="dropdown-item" href="logout.php">Çıkış Yap</a></li>
-                            </ul>
-                        </div>
-                    <?php else: ?>
-                        <a href="girisyap.php" class="btn btn-info">Giriş Yap</a>
-                    <?php endif; ?>
-                </div>-->
-            </div>
-        </div>
-    </nav>
+    
     <!-- Geri Dön Butonu -->
     <a href="index.php" class="btn btn-secondary back-button">Ana Sayfa</a>
     <div class="container mt-5">
