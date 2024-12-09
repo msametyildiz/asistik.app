@@ -1,0 +1,218 @@
+.dashboard-content {
+    padding: 20px;
+    background-color: #f4f6f8;
+    /* Arka plan rengi */
+
+    display: flex;
+    /* İçeriği hizalamak için flex kullan */
+    flex-direction: column;
+    /* Dikey hizalama için */
+    align-items: center;
+    /* Yatay ortalama */
+    margin: 3%;
+
+
+}
+
+
+.dashboard-title {
+    font-size: 20px;
+    font-weight: bold;
+    margin-bottom: 20px;
+    color: #333;
+    /* Başlık rengini koyulaştırdım */
+}
+
+.job-cards-container {
+    display: flex; /* Kartları yan yana dizmek için flexbox kullan */
+    flex-wrap: wrap; /* Kartların ekranı taşmaması için sarma özelliğini etkinleştir */
+    gap: 20px; /* Kartlar arasında boşluk */
+    justify-content: space-between; /* Boşlukları eşit dağıt */
+    width: 100%; /* Konteyner genişliği %100 yap */
+}
+
+.job-card {
+    flex: 0 0 calc(50% - 10px); /* Her kart genişliğini %50 yap ve gap'i düş */
+    background-color: #ffffff;
+    border-radius: 10px;
+    padding: 15px;
+    box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
+    display: flex;
+    flex-direction: column;
+}
+
+/* Daha küçük ekranlarda job-card alt alta dizilsin */
+@media (max-width: 768px) {
+    .job-cards-container {
+        flex-direction: column; /* Kartları alt alta yerleştir */
+    }
+
+    .job-card {
+        flex: 1 1 100%; /* Tam genişlik */
+    }
+}
+
+  
+
+.job-card-header {
+    display: flex;
+    align-items: center;
+    margin-bottom: 10px;
+}
+
+.job-icon {
+    background-color: #17a2b8;
+    color: #ffffff;
+    font-weight: bold;
+    font-size: 18px;
+    width: 50px;
+    height: 50px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 10px;
+    /* Kare kenarlı ama yuvarlatılmış */
+    margin-right: 15px;
+}
+
+.job-info {
+    flex-grow: 1;
+}
+
+.job-title {
+    font-size: 18px;
+    font-weight: bold;
+    margin-bottom: 5px;
+    color: #333;
+}
+
+.job-subtitle {
+    font-size: 14px;
+    color: #6c757d;
+}
+
+.job-card-body {
+    margin-bottom: 10px;
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+}
+
+.job-card-body p {
+    display: flex;
+    align-items: center;
+    font-size: 14px;
+    margin: 0;
+    color: #555;
+}
+
+.job-card-body p span {
+    margin-right: 10px;
+    color: #007bff;
+    /* Simge rengini vurguladım */
+}
+
+.job-status {
+    font-size: 13px;
+    font-weight: bold;
+    color: #856404;
+    background-color: #fff3cd;
+    padding: 5px 10px;
+    border-radius: 20px;
+    display: inline-block;
+    align-self: start;
+}
+
+.job-card-footer {
+    display: flex;
+    justify-content: space-between;
+    margin-top: 10px;
+}
+
+.btn {
+    border: none;
+    border-radius: 5px;
+    padding: 8px 16px;
+    cursor: pointer;
+    font-size: 14px;
+    font-weight: bold;
+}
+
+.edit-btn {
+    background-color: #17a2b8;
+    color: #ffffff;
+    transition: background-color 0.3s ease;
+}
+
+.edit-btn:hover {
+    background-color: #138496;
+}
+
+.delete-btn {
+    background-color: #dc3545;
+    color: #ffffff;
+    transition: background-color 0.3s ease;
+}
+
+.delete-btn:hover {
+    background-color: #c82333;
+}
+
+.filter-form {
+    padding: 20px;
+    background-color: #f8f9fa;
+    border: 1px solid #e0e0e0;
+    border-radius: 10px;
+    box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.1);
+    margin: 5%;
+}
+
+.filter-title {
+    font-size: 20px;
+    font-weight: bold;
+    margin-bottom: 20px;
+}
+
+#search-form {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 20px;
+    align-items: flex-end;
+}
+
+.form-row {
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+    flex: 1;
+    min-width: 200px;
+}
+
+label {
+    font-size: 14px;
+    font-weight: bold;
+    color: #333;
+}
+
+input,
+select {
+    padding: 10px;
+    border: 1px solid #cccccc;
+    border-radius: 5px;
+    font-size: 14px;
+}
+
+.reset-btn {
+    background-color: #17a2b8;
+    color: #ffffff;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 5px;
+    font-size: 14px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.reset-btn:hover {
+    background-color: #138496;
+}

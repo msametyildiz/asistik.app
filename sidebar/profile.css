@@ -1,0 +1,93 @@
+.profile-dashboard {
+    padding: 20px;
+    background-color: #f8f9fa;
+    border-radius: 10px;
+    box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
+    max-width: 100%;
+    margin: 0 auto;
+    margin: 3%;
+  }
+  
+  .profile-title {
+    font-size: 24px;
+    font-weight: bold;
+    margin-bottom: 20px;
+    color: #333;
+  }
+  
+  .profile-form {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+  }
+  
+  .form-group {
+    display: flex;
+    gap: 20px; /* Form alanları arasında boşluk */
+    flex-wrap: wrap; /* Form alanları dar ekranlarda aşağı kayar */
+    align-items: flex-end; /* Tüm alanları alt hizaya çeker */
+  }
+  
+  .form-field {
+    flex: 1 1 calc(33.333% - 20px); /* Her form alanı %33 genişlikte olacak */
+    min-width: 200px; /* Minimum genişlik ayarlandı */
+    display: flex;
+    flex-direction: column;
+  }
+  .form-field:last-child {
+    flex: 1 1 calc(33.333% - 20px); /* Location ile aynı genişlikte olacak */
+  display: flex;
+  justify-content: flex-start; /* Butonu sola hizalar */
+  align-items: center; /* Dikey hizalama */
+  }
+  label {
+    font-size: 14px;
+    font-weight: bold;
+    color: #333;
+    margin-bottom: 5px;
+  }
+  
+  input[type="text"],
+  input[type="email"],
+  input[type="file"] {
+    padding: 10px;
+    border: 1px solid #cccccc;
+    border-radius: 5px;
+    font-size: 14px;
+  }
+  
+  .submit-btn {
+    background-color: #17a2b8;
+    color: #ffffff;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 5px;
+    font-size: 14px;
+    cursor: pointer;
+  }
+  
+  .submit-btn:hover {
+    background-color: #138496;
+  }
+  
+  /* Responsive Tasarım */
+  @media (max-width: 768px) {
+    .form-group {
+      flex-direction: column; /* Küçük ekranlarda form alanları alt alta gelir */
+    }
+  
+    .form-field {
+      flex: 1 1 100%; /* Tam genişlikte olur */
+    }
+  }
+  @media (max-width: 768px) {
+    .form-field {
+      flex: 1 1 100%; /* Küçük ekranlarda her alan tam genişlik */
+    }
+  
+    .form-field:last-child {
+      justify-content: center; /* Buton ortalanır */
+    }
+  }
+  
+    
