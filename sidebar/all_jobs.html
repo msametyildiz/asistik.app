@@ -13,7 +13,8 @@
 
 <body>
     <div id="root">
-        <aside class="sidebar">
+        <aside class="sidebar collapsed"> <!-- Varsayılan olarak "collapsed" sınıfı -->
+            <button class="close-btn">✖</button> <!-- X Butonu -->
             <div class="sidebar-header">
                 <img src="asistik_logo.png" alt="Asistik Logo" class="logo">
                 <h4 class="logo-text">ASİSTİK</h4>
@@ -32,10 +33,14 @@
                 </button>
 
                 <div class="user-menu">
-                    <img src="https://res.cloudinary.com/dummy-avatar.jpg" alt="User Avatar" class="user-avatar">
-                    <span>User</span>
-                    <button class="dropdown-btn">▼</button>
-                </div>
+                    <img src="" alt="User Avatar" class="user-avatar" id="user-avatar" style="display: none;">
+                    <span id="user-name" style="display: none;"></span>
+                    <button id="login-button" class="login-btn">Giriş Yap</button>
+                    <button class="dropdown-btn" id="dropdown-btn" onclick="toggleDropdown()" style="display: none;">▼</button>
+                    <div class="dropdown-menu" id="dropdown-menu" style="display: none;">
+                      <a href="#" id="logout-link" onclick="logout()">Çıkış Yap</a>
+                    </div>
+                  </div>
             </nav>
             <section class="filter-form">
                 <h4 class="filter-title">Search Form</h4>

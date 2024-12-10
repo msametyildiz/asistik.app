@@ -10,7 +10,8 @@
 </head>
 <body>
   <div id="root">
-    <aside class="sidebar">
+    <aside class="sidebar collapsed"> <!-- Varsayılan olarak "collapsed" sınıfı -->
+      <button class="close-btn">✖</button> <!-- X Butonu -->
       <div class="sidebar-header">
         <img src="asistik_logo.png" alt="Asistik Logo" class="logo">
         <h4 class="logo-text">ASİSTİK</h4>
@@ -28,38 +29,47 @@
             <img src="menu.png" alt="Menu" style="width: 24px; height: 24px;">
           </button>
           
-        <div class="user-menu">
-          <img src="https://res.cloudinary.com/dummy-avatar.jpg" alt="User Avatar" class="user-avatar">
-          <span>User</span>
-          <button class="dropdown-btn">▼</button>
-        </div>
+          
+          <div class="user-menu">
+            <img src="" alt="User Avatar" class="user-avatar" id="user-avatar" style="display: none;">
+            <span id="user-name" style="display: none;"></span>
+            <button id="login-button" class="login-btn">Giriş Yap</button>
+            <button class="dropdown-btn" id="dropdown-btn" onclick="toggleDropdown()" style="display: none;">▼</button>
+            <div class="dropdown-menu" id="dropdown-menu" style="display: none;">
+              <a href="#" id="logout-link" onclick="logout()">Çıkış Yap</a>
+            </div>
+          </div>
+          
       </nav>
       <section class="dashboard-content">
-        <h4 class="form-title">İş Ekle</h4>
-        <form method="post" action="#" class="form">
-          <div class="form-row">
-            <label for="position">Pozisyon</label>
-            <input type="text" id="position" name="position" placeholder="Pozisyon girin" required>
-          </div>
-          <div class="form-row">
-            <label for="company">Sektör</label>
-            <input type="text" id="company" name="company" placeholder="Sektör girin" required>
-          </div>
-          <div class="form-row">
-            <label for="jobLocation">Lokasyon</label>
-            <input type="text" id="jobLocation" name="jobLocation" placeholder="Lokasyon girin" required>
-          </div>
-          <div class="form-row">
-            <label for="jobType">Çalışma Türü</label>
-            <select id="jobType" name="jobType">
-              <option value="full-time">full-time</option>
-              <option value="part-time">part-time</option>
-              <option value="internship">internship</option>
-            </select>
-          </div>
-          <button type="submit" class="submit-btn">Kaydet</button>
-        </form>
+        <div class="form-container">
+          <h4 class="form-title">İş Ekle</h4>
+          <form method="post" action="#" class="form">
+            <div class="form-row">
+              <label for="position">Pozisyon</label>
+              <input type="text" id="position" name="position" placeholder="Pozisyon girin" required>
+            </div>
+            <div class="form-row">
+              <label for="company">Sektör</label>
+              <input type="text" id="company" name="company" placeholder="Sektör girin" required>
+            </div>
+            <div class="form-row">
+              <label for="jobLocation">Lokasyon</label>
+              <input type="text" id="jobLocation" name="jobLocation" placeholder="Lokasyon girin" required>
+            </div>
+            <div class="form-row">
+              <label for="jobType">Çalışma Türü</label>
+              <select id="jobType" name="jobType">
+                <option value="full-time">Full-time</option>
+                <option value="part-time">Part-time</option>
+                <option value="internship">Internship</option>
+              </select>
+            </div>
+            <button type="submit" class="submit-btn">Kaydet</button>
+          </form>
+        </div>
       </section>
+      
     </main>
   </div>
   <script src="script.js"></script>

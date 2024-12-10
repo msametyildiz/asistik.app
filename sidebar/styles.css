@@ -67,19 +67,23 @@ body {
   color: #333333;
   display: flex;
   align-items: center;
-  padding: 10px;
+  padding: 15px 20px;
   border-radius: 5px;
-  margin-left: 5%;
-  margin-right: 5%;
+  margin-left: 0%;
+  margin-right: 0%;
+  transition: all 0.3s ease-in-out; /* Hover efektine geçiş animasyonu */
 }
 
 .nav-links li a.active,
 .nav-links li a:hover {
-  background-color: #e6f7ff;
-  color: #007acc;
-  margin-left: 2%;
-  margin-right: 2%;
+  background-color: #e6f7ff; /* Arka plan rengini değiştir */
+  color: #007acc; /* Metin rengini değiştir */
+  margin-left: 2%; /* Hover veya aktifken kenar boşluğunu artır */
+  margin-right: 2%; /* Hover veya aktifken kenar boşluğunu artır */
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2); /* Hover veya aktifken hafif gölge ekle */
+  transform: scale(1.05); /* Hover veya aktifken hafif büyüme efekti */
 }
+
 
 .nav-links li a span {
   margin-right: 10px;
@@ -110,8 +114,84 @@ body {
 }
 
 .dashboard-content {
-  padding: 40px 20px;
+  display: flex;
+  justify-content: center; /* Yatayda ortalama */
+  align-items: center;    /* Dikeyde ortalama */
+  min-height: 100vh;      /* Tüm ekran yüksekliği kadar alan */
+  background-color: #f8f9fa;
+  padding: 20px;          /* Form çevresinde boşluk */
 }
+
+.form-container {
+  background-color: #ffffff; /* Beyaz arka plan */
+  border-radius: 10px;       /* Köşeleri yuvarlat */
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1); /* Hafif gölge */
+  padding: 30px;            /* İç boşluk */
+  width: 100%;              /* Konteyner genişliği */
+  max-width: 800px;         /* Maksimum genişlik */
+}
+
+.form-title {
+  font-size: 24px;        /* Başlık yazı boyutu */
+  font-weight: bold;      /* Kalın yazı */
+  margin-bottom: 20px;    /* Alt boşluk */
+  text-align: center;     /* Ortalama */
+  color: #333333;
+}
+
+.form {
+  display: flex;
+  flex-direction: column;
+}
+
+.form-row {
+  display: flex;
+  flex-direction: column;
+}
+
+label {
+  font-size: 14px;
+  font-weight: bold;
+  color: #333333;
+  margin-bottom: 5px;
+}
+
+input[type="text"],
+select {
+  padding: 10px;
+  border: 1px solid #cccccc;
+  border-radius: 5px;
+  font-size: 14px;
+  width: 100%;
+}
+
+.submit-btn {
+  background-color: #007bff;
+  color: #ffffff;
+  border: none;
+  padding: 10px 15px;
+  border-radius: 5px;
+  font-size: 16px;
+  cursor: pointer;
+  width: 100%; /* Tam genişlik */
+  transition: background-color 0.3s ease;
+}
+
+.submit-btn:hover {
+  background-color: #0056b3;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+  .form-container {
+    padding: 20px;
+  }
+
+  .form-title {
+    font-size: 20px; /* Küçük ekranlarda başlık boyutunu küçült */
+  }
+}
+
 
 .form {
   background-color: #ffffff;
@@ -189,6 +269,31 @@ body {
     margin-left: 0;
   }
 }
+.close-btn {
+  position: absolute;
+  top: 15px; /* Sidebar'ın üstünden mesafe */
+  right: 15px; /* Sidebar'ın sağından mesafe */
+  font-size: 18px; /* Buton yazı boyutu */
+  background: none; /* Arka plan olmadan */
+  border: none; /* Çerçevesiz */
+  color: #333; /* Yazı rengi */
+  cursor: pointer; /* Fare imlecini değiştir */
+  padding: 5px; /* İç boşluk */
+  border-radius: 50%; /* Yuvarlak hatlar için */
+  background-color: #f0f0f0; /* Hafif bir arka plan */
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1); /* Hafif gölge efekti */
+  display: none; /* Varsayılan olarak gizli */
+}
+@media (max-width: 480px) {
+  .sidebar.open .close-btn {
+    display: block; /* 480px'den küçükken ve sidebar açıkken görünür */
+  }
+}
+
+.close-btn:hover {
+  background-color: #e0e0e0; /* Üzerine gelince daha koyu arka plan */
+  color: #000; /* Daha koyu yazı rengi */
+}
 
 @media (max-width: 480px) {
   .sidebar {
@@ -221,13 +326,21 @@ body {
 
   .close-btn {
     position: absolute;
-    top: 10px;
-    right: 10px;
+    top: 15px;
+    right: 15px;
     font-size: 18px;
     background: none;
     border: none;
     cursor: pointer;
     color: #333333;
+    padding: 5px;
+    border-radius: 50%;
+    background-color: #f0f0f0;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+  }
+
+  .close-btn:hover {
+    background-color: #e0e0e0;
   }
 
   .nav-links {
@@ -252,4 +365,71 @@ body {
   .navbar .toggle-btn {
     display: block;
   }
+}
+
+
+.user-menu {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  position: relative;
+}
+
+.user-avatar {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  object-fit: cover;
+}
+
+#user-name {
+  font-size: 14px;
+  font-weight: bold;
+}
+
+.login-btn {
+  background-color: #007bff;
+  color: #ffffff;
+  border: none;
+  padding: 10px 15px;
+  border-radius: 5px;
+  font-size: 14px;
+  cursor: pointer;
+}
+
+.login-btn:hover {
+  background-color: #0056b3;
+}
+
+.dropdown-btn {
+  background: none;
+  border: none;
+  cursor: pointer;
+  font-size: 16px;
+  color: #333;
+}
+
+.dropdown-menu {
+  position: absolute;
+  top: 50px;
+  right: 0;
+  background-color: #ffffff;
+  border: 1px solid #ddd;
+  border-radius: 5px;
+  box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
+  display: none; /* Varsayılan olarak gizli */
+}
+
+
+.dropdown-menu a {
+  display: block;
+  padding: 10px 15px;
+  text-decoration: none;
+  color: #333;
+  font-size: 14px;
+}
+
+.dropdown-menu a:hover {
+  background-color: #f0f0f0;
+  color: #007acc;
 }
