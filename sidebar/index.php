@@ -45,14 +45,7 @@
       max-width: 25%;
     }
 
-    @media (max-width: 768px) and (max-height: 616px) {
-      .col-6 {
-        flex: 0 0 50%;
-        max-width: 50%;
-      }
-    }
-
-    @media (max-width: 768px) {
+    @media (max-width: 768px){
       .col-6 {
         flex: 0 0 50%;
         max-width: 50%;
