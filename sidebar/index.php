@@ -130,9 +130,10 @@
     </aside>
     <main class="dashboard">
       <nav class="navbar">
-        <button id="toggle-btn" class="toggle-btn">
+        <!--<button id="toggle-btn" class="toggle-btn">
           <img src="menu.png" alt="Menu" style="width: 24px; height: 24px;">
-        </button>
+        </button>-->
+        <button  class="toggle-btn" id="toggle-btn" >&#9776;</button>
         <div class="user-menu">
           <img src="" alt="User Avatar" class="user-avatar" id="user-avatar" style="display: none;">
           <span id="user-name" style="display: none;"></span>

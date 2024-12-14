@@ -20,7 +20,7 @@ body {
 .sidebar {
   width: 250px;
   background-color: #ffffff;
-  border-right: 1px solid #e0e0e0;
+  /*border-right: 1px solid #e0e0e0;*/
   transition: all 0.5s ease-in-out;
   overflow: hidden;
 }
@@ -366,7 +366,9 @@ select {
     display: block;
   }
 }
-
+.toggle-btn {
+  border: none; /* Çerçeveyi tamamen kaldırır */
+}
 
 .user-menu {
   display: flex;
