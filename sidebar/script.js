@@ -7,19 +7,16 @@ document.addEventListener("DOMContentLoaded", () => {
 
   // Sidebar açma/kapatma işlemi
   toggleBtn.addEventListener("click", () => {
-    const isCollapsed = sidebar.classList.contains("collapsed");
-    if (isCollapsed) {
-      // Sidebar aç
-      sidebar.classList.add("open");
-      sidebar.classList.remove("collapsed");
-      dashboard.classList.add("expanded");
-    } else {
-      // Sidebar kapat
-      sidebar.classList.add("collapsed");
-      sidebar.classList.remove("open");
-      dashboard.classList.remove("expanded");
-    }
+    sidebar.classList.toggle("collapsed");
   });
+
+  // Sidebar'ı kapatma (X butonu ile)
+  if (closeBtn) {
+    closeBtn.addEventListener("click", () => {
+      sidebar.classList.add("collapsed");
+    });
+  }
+  
 
   // Sidebar'ı kapatma (X butonu ile)
   if (closeBtn) {
