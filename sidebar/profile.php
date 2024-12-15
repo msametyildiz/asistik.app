@@ -1,3 +1,5 @@
+<?php include 'include/session_handler.php'; ?>
+
 <!DOCTYPE html>
 <html lang="en">
 
@@ -8,42 +10,16 @@
     <link rel="stylesheet" href="assets/css/styles.css">
     <link rel="stylesheet" href="assets/css/profile.css">
     <link rel="shortcut icon" type="image/x-icon" href="assets/images/asistik_logo.png">
+    <script src="assets/js/disable_keys.js"></script>
 </head>
 
 <body>
     <div id="root">
-        <aside class="sidebar collapsed"> <!-- Varsayılan olarak "collapsed" sınıfı -->
-            <button class="close-btn">✖</button> <!-- X Butonu -->
-            <div class="sidebar-header" onclick="redirectToHome()">
-                <img src="assets/images/asistik_logo.png" alt="Asistik Logo" class="logo">
-                <h4 class="logo-text">ASİSTİK</h4>
-            </div>
+    <?php include 'include/sidebar.php'; ?>
 
-            <div class="nav-links">
-                <li><a href="add_jobs.html"><span>📋</span> İş Ekle</a></li>
-                <li><a href="all_jobs.html"><span>📄</span> Tüm İşler</a></li>
-                <li><a href="#" data-section="İstatistik" id="istatistik-link" class="alert-section"><span>📊</span>
-                        İstatistik</a></li>
-                <li><a href="#"><span>👤</span> Profil</a></li>
-            </div>
-        </aside>
         <main class="dashboard">
-            <nav class="navbar">
-                <button id="toggle-btn" class="toggle-btn">
-                    <img src="assets/images/menu.png" alt="Menu" style="width: 24px; height: 24px;">
-                </button>
+        <?php include 'include/navbar.php'; ?>
 
-                <div class="user-menu">
-                    <img src="" alt="User Avatar" class="user-avatar" id="user-avatar" style="display: none;">
-                    <span id="user-name" style="display: none;"></span>
-                    <button id="login-button" class="login-btn">Giriş Yap</button>
-                    <button class="dropdown-btn" id="dropdown-btn" onclick="toggleDropdown()"
-                        style="display: none;">▼</button>
-                    <div class="dropdown-menu" id="dropdown-menu" style="display: none;">
-                        <a href="#" id="logout-link" onclick="logout()">Çıkış Yap</a>
-                    </div>
-                </div>
-            </nav>
 
             <section class="profile-dashboard">
                 <h4 class="profile-title">Profile</h4>
@@ -80,6 +56,8 @@
 
         </main>
     </div>
+    <?php include 'include/footer.php'; ?>
+
     <script src="assets/js/script.js"></script>
     <script>
         function showAlert(event) {

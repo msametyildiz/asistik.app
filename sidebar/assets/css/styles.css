@@ -9,6 +9,9 @@
     display: flex;
     height: 100vh;
     background-color: #f8f9fa;
+    flex-direction: column; /* Flexbox yapısını etkinleştir */
+    min-height: 100vh; /* Tam ekran yüksekliği */
+    margin: 0; /* Varsayılan boşlukları kaldır */
     color: #333;
     transition: background-color 0.5s ease, color 0.5s ease;
   }
@@ -16,6 +19,7 @@
   #root {
     display: flex;
     width: 100%;
+    flex: 1; /* İçeriği esnek yapar, footer'ı alta iter */
   }
 
   /* Sidebar */
@@ -734,4 +738,18 @@ body.high-contrast {
   .logout .btn-danger {
     width: 100%; /* Genişlik %80 */
   }
+}
+
+
+
+/* Footer */
+.site-footer {
+  background-color: #f8f9fa; /* Hafif gri arka plan */
+  color: #333; /* Yazı rengi */
+  text-align: center; /* Ortalanmış metin */
+  padding: 10px 20px; /* İç boşluklar */
+  border-top: 1px solid #ddd; /* Üst kenarda bir ayrım çizgisi */
+  width: 100%; /* Tam genişlik */
+  font-size: 14px; /* Yazı boyutu */
+  margin-top: 5%;
 }
