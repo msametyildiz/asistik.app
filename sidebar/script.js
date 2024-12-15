@@ -140,3 +140,39 @@ function updateUserMenu() {
 
 // Sayfa yüklendiğinde menüyü güncelle
 document.addEventListener('DOMContentLoaded', updateUserMenu);
+
+
+
+// 1. Gerekli Butonları Seç
+const darkModeBtn = document.getElementById("dark-mode-btn");
+const highContrastBtn = document.getElementById("high-contrast-btn");
+
+// 2. Mod Geçiş Fonksiyonları
+function enableDarkMode() {
+  document.body.classList.add("dark-mode");
+  document.body.classList.remove("high-contrast"); // High Contrast devre dışı
+  localStorage.setItem("theme", "dark-mode"); // Dark Mode tercihini kaydet
+}
+
+function enableHighContrast() {
+  document.body.classList.add("high-contrast");
+  document.body.classList.remove("dark-mode"); // Dark Mode devre dışı
+  localStorage.setItem("theme", "high-contrast"); // High Contrast tercihini kaydet
+}
+
+// 3. Kullanıcı Tercihini Yükleme Fonksiyonu
+function loadThemePreference() {
+  const savedTheme = localStorage.getItem("theme"); // LocalStorage'den temayı al
+  if (savedTheme === "dark-mode") {
+    enableDarkMode();
+  } else if (savedTheme === "high-contrast") {
+    enableHighContrast();
+  }
+}
+
+// 4. Event Listener'ları Ekle
+darkModeBtn.addEventListener("click", enableDarkMode);
+highContrastBtn.addEventListener("click", enableHighContrast);
+
+// 5. Sayfa Yüklendiğinde Tercihi Kontrol Et
+document.addEventListener("DOMContentLoaded", loadThemePreference);

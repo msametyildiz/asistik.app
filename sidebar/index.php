@@ -45,7 +45,7 @@
       max-width: 25%;
     }
 
-    @media (max-width: 768px){
+    @media (max-width: 768px) {
       .col-6 {
         flex: 0 0 50%;
         max-width: 50%;
@@ -109,11 +109,11 @@
         gap: 2px;
       }
     }
-    
   </style>
 </head>
 
 <body>
+  <div id="loading" class="loading-spinner"></div>
   <div id="root">
     <aside class="sidebar collapsed">
       <button class="close-btn">✖</button>
@@ -121,11 +121,16 @@
         <img src="asistik_logo.png" alt="Asistik Logo" class="logo">
         <h4 class="logo-text">ASİSTİK</h4>
       </div>
+      <div class="theme-buttons">
+        <button id="dark-mode-btn" class="theme-toggle-btn">🌙 Dark Mod</button>
+        <button id="high-contrast-btn" class="theme-toggle-btn">🔲 High Contrast</button>
+
+      </div>
       <div class="nav-links">
-        <li><a href="add_jobs.html"><span>📋</span> İş Ekle</a></li>
-        <li><a href="all_jobs.html"><span>📄</span> Tüm İşler</a></li>
+        <li><a href="add_jobs.html" data-tooltip="İş Ekle"><span>📋</span> İş Ekle</a></li>
+        <li><a href="all_jobs.html" data-tooltip="Tüm İşler"><span>📄</span> Tüm İşler</a></li>
         <li><a href="#" id="istatistik-link" onclick="showAlert(event)"><span>📊</span> İstatistik</a></li>
-        <li><a href="profile.html"><span>👤</span> Profil</a></li>
+        <li><a href="profile.html" data-tooltip="Profil"><span>👤</span> Profil</a></li>
       </div>
     </aside>
     <main class="dashboard">
@@ -133,7 +138,7 @@
         <!--<button id="toggle-btn" class="toggle-btn">
           <img src="menu.png" alt="Menu" style="width: 24px; height: 24px;">
         </button>-->
-        <button  class="toggle-btn" id="toggle-btn" >&#9776;</button>
+        <button class="toggle-btn" id="toggle-btn">&#9776;</button>
         <div class="user-menu">
           <img src="" alt="User Avatar" class="user-avatar" id="user-avatar" style="display: none;">
           <span id="user-name" style="display: none;"></span>
