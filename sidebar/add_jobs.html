@@ -1,45 +1,48 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>ASİSTİK</title>
-  <link rel="stylesheet" href="styles.css">
-  <link rel="shortcut icon" type="image/x-icon" href="asistik_logo.png">
+  <link rel="stylesheet" href="assets/css/styles.css">
+  <link rel="shortcut icon" type="image/x-icon" href="assets/images/asistik_logo.png">
 
 </head>
+
 <body>
   <div id="root">
     <aside class="sidebar collapsed"> <!-- Varsayılan olarak "collapsed" sınıfı -->
       <button class="close-btn">✖</button> <!-- X Butonu -->
-      <div class="sidebar-header">
-        <img src="asistik_logo.png" alt="Asistik Logo" class="logo">
+      <div class="sidebar-header" onclick="redirectToHome()">
+        <img src="assets/images/asistik_logo.png" alt="Asistik Logo" class="logo">
         <h4 class="logo-text">ASİSTİK</h4>
       </div>
       <div class="nav-links">
-        <li><a href="#" ><span>📋</span> İş Ekle</a></li>
-        <li><a href="all_jobs.html" ><span>📄</span> Tüm İşler</a></li>
-        <li><a href="#" id="istatistik-link" onclick="showAlert(event)"><span>📊</span> İstatistik</a></li>
+        <li><a href="#"><span>📋</span> İş Ekle</a></li>
+        <li><a href="all_jobs.html"><span>📄</span> Tüm İşler</a></li>
+        <li><a href="#" data-section="İstatistik" id="istatistik-link" class="alert-section"><span>📊</span>
+            İstatistik</a></li>
         <li><a href="profile.html"><span>👤</span> Profil</a></li>
       </div>
     </aside>
     <main class="dashboard">
       <nav class="navbar">
         <button id="toggle-btn" class="toggle-btn">
-            <img src="menu.png" alt="Menu" style="width: 24px; height: 24px;">
-          </button>
-          
-          
-          <div class="user-menu">
-            <img src="" alt="User Avatar" class="user-avatar" id="user-avatar" style="display: none;">
-            <span id="user-name" style="display: none;"></span>
-            <button id="login-button" class="login-btn">Giriş Yap</button>
-            <button class="dropdown-btn" id="dropdown-btn" onclick="toggleDropdown()" style="display: none;">▼</button>
-            <div class="dropdown-menu" id="dropdown-menu" style="display: none;">
-              <a href="#" id="logout-link" onclick="logout()">Çıkış Yap</a>
-            </div>
+          <img src="assets/images/menu.png" alt="Menu" style="width: 24px; height: 24px;">
+        </button>
+
+
+        <div class="user-menu">
+          <img src="" alt="User Avatar" class="user-avatar" id="user-avatar" style="display: none;">
+          <span id="user-name" style="display: none;"></span>
+          <button id="login-button" class="login-btn">Giriş Yap</button>
+          <button class="dropdown-btn" id="dropdown-btn" onclick="toggleDropdown()" style="display: none;">▼</button>
+          <div class="dropdown-menu" id="dropdown-menu" style="display: none;">
+            <a href="#" id="logout-link" onclick="logout()">Çıkış Yap</a>
           </div>
-          
+        </div>
+
       </nav>
       <section class="dashboard-content">
         <div class="form-container">
@@ -69,15 +72,23 @@
           </form>
         </div>
       </section>
-      
+
     </main>
   </div>
-  <script src="script.js"></script>
+  <script src="assets/js/script.js"></script>
   <script>
     function showAlert(event) {
       event.preventDefault();
       alert('Üzerinde çalışılıyor!');
     }
+    document.querySelectorAll('.alert-section').forEach(function (element) {
+      element.addEventListener('click', function (event) {
+        event.preventDefault();
+        const sectionName = this.getAttribute('data-section');
+        alert(`${sectionName} kısmı üzerinde çalışmalarımız devam ediyor.`);
+      });
+    });
   </script>
 </body>
+
 </html>
