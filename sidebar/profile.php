@@ -10,8 +10,8 @@
     <link rel="stylesheet" href="assets/css/styles.css">
     <link rel="stylesheet" href="assets/css/profile.css">
     <link rel="shortcut icon" type="image/x-icon" href="assets/images/asistik_logo.png">
-    <script src="assets/js/disable_keys.js"></script>
-</head>
+    <!--<script src="assets/js/disable_keys.js"></script>-->
+    </head>
 
 <body>
     <div id="root">

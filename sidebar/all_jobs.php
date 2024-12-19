@@ -10,7 +10,7 @@
     <link rel="stylesheet" href="assets/css/styles.css">
     <link rel="stylesheet" href="assets/css/all_job_style.css">
     <link rel="shortcut icon" type="image/x-icon" href="assets/images/asistik_logo.png">
-    <script src="assets/js/disable_keys.js"></script>
+    <!--<script src="assets/js/disable_keys.js"></script>-->
 </head>
 
 <body>
