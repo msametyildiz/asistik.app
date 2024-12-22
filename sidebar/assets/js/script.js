@@ -109,36 +109,3 @@ function updateUserMenu() {
     loginButton.style.display = 'inline-block';
   }
 }
-
-// Tema Seçenekleri
-const darkModeBtn = document.getElementById("dark-mode-btn");
-const highContrastBtn = document.getElementById("high-contrast-btn");
-
-function enableDarkMode() {
-  document.body.classList.add("dark-mode");
-  document.body.classList.remove("high-contrast");
-  localStorage.setItem("theme", "dark-mode");
-}
-
-function enableHighContrast() {
-  document.body.classList.add("high-contrast");
-  document.body.classList.remove("dark-mode");
-  localStorage.setItem("theme", "high-contrast");
-}
-
-function loadThemePreference() {
-  const savedTheme = localStorage.getItem("theme");
-  if (savedTheme === "dark-mode") {
-    enableDarkMode();
-  } else if (savedTheme === "high-contrast") {
-    enableHighContrast();
-  }
-}
-
-darkModeBtn.addEventListener("click", enableDarkMode);
-highContrastBtn.addEventListener("click", enableHighContrast);
-document.addEventListener("DOMContentLoaded", loadThemePreference);
-
-function redirectToHome() {
-  window.location.href = "index.php";
-}
