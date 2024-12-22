@@ -67,6 +67,7 @@ $job_count = $countStmt->fetch(PDO::FETCH_ASSOC)['count'];
 $sectorStmt = $db->prepare("SELECT id, sector_name FROM sectors WHERE is_open = 1");
 $sectorStmt->execute();
 $sectors = $sectorStmt->fetchAll(PDO::FETCH_ASSOC);
+
 ?>
 
 <!DOCTYPE html>
@@ -80,25 +81,8 @@ $sectors = $sectorStmt->fetchAll(PDO::FETCH_ASSOC);
     <link rel="stylesheet" href="assets/css/all_job_style.css">
     <link rel="shortcut icon" type="image/x-icon" href="assets/images/asistik_logo.png">
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-    <style>
-        .dashboard-content {
-            min-height: auto !important;
-        }
-        .btn {
-    padding: 10px 20px;
-    border-radius: 5px;
-    font-size: 14px;
-}
-.btn-warning {
-    background-color: #17a2b8;
-    color: #fff;
-}
-.btn-danger {
-    background-color: #dc3545;
-    color: #fff;
-}
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
 
-    </style>
 </head>
 
 <body>
@@ -166,25 +150,25 @@ $sectors = $sectorStmt->fetchAll(PDO::FETCH_ASSOC);
 
     <!-- Düzenleme Modalı -->
     <div class="modal fade" id="editModal" tabindex="-1" aria-hidden="true">
-        <div class="modal-dialog">
+        <div class="modal-dialog modal-dialog-centered">
             <form method="POST">
                 <input type="hidden" name="action" value="update">
                 <input type="hidden" name="position_id" id="edit_position_id">
                 <div class="modal-content">
                     <div class="modal-header">
                         <h5 class="modal-title">Pozisyon Düzenle</h5>
-                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                    </div>
+                        <button type="button" data-bs-dismiss="modal" aria-label="Close" style="background: none; border: none; font-size: 1.5rem;">&times;</button>
+                        </div>
                     <div class="modal-body">
-                        <div class="mb-3">
+                        <div class="mb-4">
                             <label for="edit_position_name" class="form-label">Pozisyon Adı</label>
                             <input type="text" name="position_name" id="edit_position_name" class="form-control" required>
                         </div>
-                        <div class="mb-3">
+                        <div class="mb-4">
                             <label for="edit_location" class="form-label">Lokasyon</label>
                             <input type="text" name="location" id="edit_location" class="form-control" required>
                         </div>
-                        <div class="mb-3">
+                        <div class="mb-4">
                             <label for="edit_job_type" class="form-label">İş Türü</label>
                             <select name="job_type" id="edit_job_type" class="form-control" required>
                                 <option value="full-time">Full-Time</option>
@@ -192,7 +176,7 @@ $sectors = $sectorStmt->fetchAll(PDO::FETCH_ASSOC);
                                 <option value="internship">Internship</option>
                             </select>
                         </div>
-                        <div class="mb-3">
+                        <div class="mb-4">
                             <label for="edit_sector_id" class="form-label">Sektör</label>
                             <select name="sector_id" id="edit_sector_id" class="form-control" required>
                                 <?php foreach ($sectors as $sector): ?>
@@ -200,7 +184,7 @@ $sectors = $sectorStmt->fetchAll(PDO::FETCH_ASSOC);
                                 <?php endforeach; ?>
                             </select>
                         </div>
-                        <div class="mb-3">
+                        <div class="mb-4">
                             <label for="edit_is_open" class="form-label">Durum</label>
                             <select name="is_open" id="edit_is_open" class="form-control" required>
                                 <option value="1">Açık</option>
@@ -220,7 +204,6 @@ $sectors = $sectorStmt->fetchAll(PDO::FETCH_ASSOC);
 
     <?php include 'include/footer.php'; ?>
     <script src="assets/js/script.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
     <script>
         function editPosition(id, name, location, jobType, isOpen) {
             // Modal içindeki alanları doldur
@@ -234,29 +217,32 @@ $sectors = $sectorStmt->fetchAll(PDO::FETCH_ASSOC);
             const editModal = new bootstrap.Modal(document.getElementById('editModal'));
             editModal.show();
         }
+        
 
         function deletePosition(id) {
-    if (confirm("Bu ilanı silmek istediğinize emin misiniz?")) {
-        $.ajax({
-            url: 'pages/delete_job.php',
-            type: 'POST',
-            data: { position_id: id },
-            dataType: 'json',
-            success: function(response) {
-                if (response.success) {
-                    alert(response.message);
-                    location.reload(); // Sayfayı yeniler
-                } else {
-                    alert(response.message); // Başarısız mesajını gösterir
-                }
-            },
-            error: function(xhr, status, error) {
-                console.error("Silme işlemi sırasında bir hata oluştu: ", error);
-                alert("Silme işlemi başarısız oldu. Lütfen tekrar deneyin.");
+            if (confirm("Bu ilanı silmek istediğinize emin misiniz?")) {
+                $.ajax({
+                    url: 'pages/delete_job.php',
+                    type: 'POST',
+                    data: {
+                        position_id: id
+                    },
+                    dataType: 'json',
+                    success: function(response) {
+                        if (response.success) {
+                            alert(response.message);
+                            location.reload(); // Sayfayı yeniler
+                        } else {
+                            alert(response.message); // Başarısız mesajını gösterir
+                        }
+                    },
+                    error: function(xhr, status, error) {
+                        console.error("Silme işlemi sırasında bir hata oluştu: ", error);
+                        alert("Silme işlemi başarısız oldu. Lütfen tekrar deneyin.");
+                    }
+                });
             }
-        });
-    }
-}
+        }
 
 
 
