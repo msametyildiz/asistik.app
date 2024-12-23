@@ -109,3 +109,55 @@ function updateUserMenu() {
     loginButton.style.display = 'inline-block';
   }
 }
+function redirectToHome() {
+  window.location.href = "index.php";
+}
+function showAlert(event) {
+  event.preventDefault();
+  alert('Üzerinde çalışılıyor!');
+}
+document.querySelectorAll('.alert-section').forEach(function(element) {
+  element.addEventListener('click', function(event) {
+      event.preventDefault();
+      const sectionName = this.getAttribute('data-section');
+      alert(`${sectionName} kısmı üzerinde çalışmalarımız devam ediyor.`);
+  });
+});
+function editPosition(id, name, location, jobType, isOpen) {
+  // Modal içindeki alanları doldur
+  document.getElementById('edit_position_id').value = id;
+  document.getElementById('edit_position_name').value = name;
+  document.getElementById('edit_location').value = location;
+  document.getElementById('edit_job_type').value = jobType;
+  document.getElementById('edit_is_open').value = isOpen;
+
+  // Modal'ı aç
+  const editModal = new bootstrap.Modal(document.getElementById('editModal'));
+  editModal.show();
+}
+
+
+function deletePosition(id) {
+  if (confirm("Bu ilanı silmek istediğinize emin misiniz?")) {
+      $.ajax({
+          url: 'pages/delete_job.php',
+          type: 'POST',
+          data: {
+              position_id: id
+          },
+          dataType: 'json',
+          success: function(response) {
+              if (response.success) {
+                  alert(response.message);
+                  location.reload(); // Sayfayı yeniler
+              } else {
+                  alert(response.message); // Başarısız mesajını gösterir
+              }
+          },
+          error: function(xhr, status, error) {
+              console.error("Silme işlemi sırasında bir hata oluştu: ", error);
+              alert("Silme işlemi başarısız oldu. Lütfen tekrar deneyin.");
+          }
+      });
+  }
+}

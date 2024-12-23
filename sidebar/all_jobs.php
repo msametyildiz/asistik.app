@@ -1,7 +1,28 @@
 <?php
 ob_start();
 session_start();
-require '../config.php';
+require 'pages/config.php';
+
+// Başarı mesajını kontrol et ve göster
+if (isset($_SESSION['success_message'])) {
+    $success_message = $_SESSION['success_message'];
+    unset($_SESSION['success_message']); // Mesajı bir kez göstermek için temizle
+} else {
+    $success_message = null;
+}
+if (isset($success_message)) {
+    echo "<script>
+        document.addEventListener('DOMContentLoaded', function() {
+            Swal.fire({
+                icon: 'success',
+                title: 'Başarılı',
+                text: '" . htmlspecialchars($success_message) . "',
+                confirmButtonText: 'Tamam'
+            });
+        });
+    </script>";
+}
+
 
 // Kullanıcı oturumda mı?
 $isLoggedIn = isset($_SESSION['logged_in']) && $_SESSION['logged_in'];
@@ -16,6 +37,7 @@ if (!$isLoggedIn) {
 // Kullanıcı bilgileri
 $user_role = $_SESSION['user_role'];
 $user_id = $_SESSION['user_id'];
+
 
 // İş ilanlarını veritabanından çek
 $search_query = '';
@@ -82,6 +104,7 @@ $sectors = $sectorStmt->fetchAll(PDO::FETCH_ASSOC);
     <link rel="shortcut icon" type="image/x-icon" href="assets/images/asistik_logo.png">
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 
 </head>
 
@@ -120,7 +143,7 @@ $sectors = $sectorStmt->fetchAll(PDO::FETCH_ASSOC);
                 <h4 class="dashboard-title" id="job-count-title"><?= $job_count ?> İş Bulundu</h4>
                 <div class="job-cards-container" id="job-cards">
                     <?php foreach ($positions as $position): ?>
-                        <div class="job-card">
+                        <div class="job-card <?= ($user_role === 'employer' && $position['employer_id'] == $user_id) ? 'editable-card' : ''; ?>">
                             <div class="job-card-header">
                                 <div class="job-icon">T</div>
                                 <div class="job-info">
@@ -140,8 +163,8 @@ $sectors = $sectorStmt->fetchAll(PDO::FETCH_ASSOC);
                                     <button class="btn btn-danger delete-btn" onclick="deletePosition(<?= $position['id'] ?>)">Delete</button>
                                 <?php endif; ?>
                             </div>
-
                         </div>
+
                     <?php endforeach; ?>
                 </div>
             </section>
@@ -158,7 +181,7 @@ $sectors = $sectorStmt->fetchAll(PDO::FETCH_ASSOC);
                     <div class="modal-header">
                         <h5 class="modal-title">Pozisyon Düzenle</h5>
                         <button type="button" data-bs-dismiss="modal" aria-label="Close" style="background: none; border: none; font-size: 1.5rem;">&times;</button>
-                        </div>
+                    </div>
                     <div class="modal-body">
                         <div class="mb-4">
                             <label for="edit_position_name" class="form-label">Pozisyon Adı</label>
@@ -205,47 +228,6 @@ $sectors = $sectorStmt->fetchAll(PDO::FETCH_ASSOC);
     <?php include 'include/footer.php'; ?>
     <script src="assets/js/script.js"></script>
     <script>
-        function editPosition(id, name, location, jobType, isOpen) {
-            // Modal içindeki alanları doldur
-            document.getElementById('edit_position_id').value = id;
-            document.getElementById('edit_position_name').value = name;
-            document.getElementById('edit_location').value = location;
-            document.getElementById('edit_job_type').value = jobType;
-            document.getElementById('edit_is_open').value = isOpen;
-
-            // Modal'ı aç
-            const editModal = new bootstrap.Modal(document.getElementById('editModal'));
-            editModal.show();
-        }
-        
-
-        function deletePosition(id) {
-            if (confirm("Bu ilanı silmek istediğinize emin misiniz?")) {
-                $.ajax({
-                    url: 'pages/delete_job.php',
-                    type: 'POST',
-                    data: {
-                        position_id: id
-                    },
-                    dataType: 'json',
-                    success: function(response) {
-                        if (response.success) {
-                            alert(response.message);
-                            location.reload(); // Sayfayı yeniler
-                        } else {
-                            alert(response.message); // Başarısız mesajını gösterir
-                        }
-                    },
-                    error: function(xhr, status, error) {
-                        console.error("Silme işlemi sırasında bir hata oluştu: ", error);
-                        alert("Silme işlemi başarısız oldu. Lütfen tekrar deneyin.");
-                    }
-                });
-            }
-        }
-
-
-
         $(document).ready(function() {
             // İş ilanlarını dinamik olarak getirir
             function fetchJobs() {
@@ -269,18 +251,6 @@ $sectors = $sectorStmt->fetchAll(PDO::FETCH_ASSOC);
             $('#reset-btn').on('click', function() {
                 $('#search-form')[0].reset(); // Formu sıfırlar
                 fetchJobs(); // Varsayılan listeyi getirir
-            });
-        });
-
-        function showAlert(event) {
-            event.preventDefault();
-            alert('Üzerinde çalışılıyor!');
-        }
-        document.querySelectorAll('.alert-section').forEach(function(element) {
-            element.addEventListener('click', function(event) {
-                event.preventDefault();
-                const sectionName = this.getAttribute('data-section');
-                alert(`${sectionName} kısmı üzerinde çalışmalarımız devam ediyor.`);
             });
         });
     </script>
