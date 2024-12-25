@@ -31,8 +31,8 @@
             <!-- Responsive grid items -->
             <?php
             $sections = [
-              ['url' => 'pages/employer_positions.php', 'img' => 'assets/images/pic/isveren.png', 'alt' => 'İşveren'],
-              ['url' => 'pages/career.php', 'img' => 'assets/images/pic/kariyer.png', 'alt' => 'Kariyer'],
+              ['url' => 'all_jobs.php', 'img' => 'assets/images/pic/isveren.png', 'alt' => 'İşveren'],
+              ['url' => 'career.php', 'img' => 'assets/images/pic/kariyer.png', 'alt' => 'Kariyer'],
               ['url' => '#', 'img' => 'assets/images/pic/kocluk.png', 'alt' => 'Koçluk', 'data' => 'Koçluk'],
               ['url' => '#', 'img' => 'assets/images/pic/analiz.png', 'alt' => 'Analiz', 'data' => 'Analiz'],
               ['url' => '#', 'img' => 'assets/images/pic/egitim.png', 'alt' => 'Eğitim', 'data' => 'Eğitim'],
