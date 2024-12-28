@@ -1,26 +1,33 @@
 <?php
-ob_start();
 session_start();
 require 'pages/config.php';
 
-// Kullanıcı oturum kontrolü
+// Kullanıcı oturumda mı?
 $isLoggedIn = isset($_SESSION['logged_in']) && $_SESSION['logged_in'];
 $username = isset($_SESSION['username']) ? $_SESSION['username'] : 'Misafir';
-
 // Oturum kontrolü
 if (!$isLoggedIn) {
     header('Location: pages/girisyap.php');
     exit;
 }
+// Sayfa numarasını kontrol et
+$page = isset($_GET['page']) && is_numeric($_GET['page']) ? intval($_GET['page']) : 1;
+$limit = 12; // Her sayfada gösterilecek sektör sayısı
+$offset = ($page - 1) * $limit; // Sektörlerin başlangıç noktası
 
-// Kullanıcı bilgileri
-$user_role = $_SESSION['user_role'] ?? null;
-$user_id = $_SESSION['user_id'] ?? null;
+// Toplam sektör sayısını çek
+$totalStmt = $db->prepare("SELECT COUNT(*) AS total FROM sectors WHERE is_open = 1");
+$totalStmt->execute();
+$totalCount = $totalStmt->fetch(PDO::FETCH_ASSOC)['total'];
+$totalPages = ceil($totalCount / $limit);
 
-// Sektör bilgilerini çek
-$sectorStmt = $db->prepare("SELECT id, sector_name FROM sectors WHERE is_open = 1");
-$sectorStmt->execute();
-$sectors = $sectorStmt->fetchAll(PDO::FETCH_ASSOC);
+// Sektörleri çek (limit ve offset ile)
+$stmt = $db->prepare("SELECT id, sector_name FROM sectors WHERE is_open = 1 LIMIT :limit OFFSET :offset");
+$stmt->bindValue(':limit', $limit, PDO::PARAM_INT);
+$stmt->bindValue(':offset', $offset, PDO::PARAM_INT);
+$stmt->execute();
+$sectors = $stmt->fetchAll(PDO::FETCH_ASSOC);
+
 ?>
 <!DOCTYPE html>
 <html lang="tr">
@@ -28,45 +35,31 @@ $sectors = $sectorStmt->fetchAll(PDO::FETCH_ASSOC);
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Kariyer Sektörleri</title>
+    <title>Kariyer</title>
     <link rel="stylesheet" href="assets/css/styles.css">
-    <link rel="stylesheet" href="assets/css/style.css">
+    <link rel="stylesheet" href="assets/css/all_job_style.css">
     <link rel="shortcut icon" type="image/x-icon" href="assets/images/asistik_logo.png">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+
     <style>
-        .sectors-container {
-            display: flex;
-            flex-wrap: wrap;
-            gap: 20px;
-            justify-content: center;
+        .pagination {
             margin-top: 20px;
         }
 
-        .sector-card {
-            background: #f8f9fa;
-            padding: 15px;
-            border: 1px solid #ddd;
-            border-radius: 10px;
-            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-            width: 200px;
-            text-align: center;
+        .pagination .page-item.active .page-link {
+            background-color: #007bff;
+            border-color: #007bff;
+            color: white;
         }
 
-        .sector-card h5 {
-            font-size: 18px;
-            font-weight: bold;
-            margin-bottom: 10px;
+        .pagination .page-link {
+            color: #007bff;
+            text-decoration: none;
         }
 
-        .alert {
-            margin: 20px 0;
-            padding: 15px;
-            border-radius: 5px;
-        }
-
-        .alert-info {
-            background-color: #d1ecf1;
-            border-color: #bee5eb;
-            color: #0c5460;
+        .pagination .page-link:hover {
+            background-color: #0056b3;
+            color: white;
         }
     </style>
 </head>
@@ -76,43 +69,57 @@ $sectors = $sectorStmt->fetchAll(PDO::FETCH_ASSOC);
         <?php include 'include/sidebar.php'; ?>
         <main class="dashboard">
             <?php include 'include/navbar.php'; ?>
-            <section class="dashboard-content">
-                <div class="section-header">
-                    <h4>Kariyer Sektörleri</h4>
-                </div>
 
-                <?php if (count($sectors) > 0): ?>
-                    <div class="sectors-container">
+            <section class="page-header">
+                <h1>Sektörler ve Fırsatlar</h1>
+                <p>Kariyer yolculuğunuzda başarıya ulaşmak için aşağıdaki sektörleri inceleyin ve başvurun.</p>
+            </section>
+
+            <section class="sector-list">
+                <div class="container">
+                    <div class="row">
                         <?php foreach ($sectors as $sector): ?>
-                            <div class="sector-card">
-                                <h5><?= htmlspecialchars($sector['sector_name']); ?></h5>
-                                <p>ID: <?= htmlspecialchars($sector['id']); ?></p>
+                            <div class="col-md-4 col-lg-3">
+                                <div class="card sector-card">
+                                    <div class="card-header bg-primary text-white">
+                                        <h5 class="card-title text-center"><?= htmlspecialchars($sector['sector_name']); ?></h5>
+                                    </div>
+                                    <div class="card-body">
+                                        <p class="card-text">Bu sektör hakkında detaylı bilgi edinerek başvurunuzu tamamlayabilirsiniz.</p>
+                                        <a href="apply.php?sector_id=<?= $sector['id'] ?>" class="btn btn-outline-primary d-block">Başvur</a>
+                                    </div>
+                                </div>
                             </div>
                         <?php endforeach; ?>
                     </div>
-                <?php else: ?>
-                    <div class="alert alert-info">
-                        Henüz sektör eklenmemiş.
-                    </div>
-                <?php endif; ?>
+                    <!-- Pagination -->
+                    <nav>
+                        <ul class="pagination justify-content-center">
+                            <?php if ($page > 1): ?>
+                                <li class="page-item">
+                                    <a class="page-link" href="?page=<?= $page - 1 ?>">Önceki</a>
+                                </li>
+                            <?php endif; ?>
+                            <?php for ($i = 1; $i <= $totalPages; $i++): ?>
+                                <li class="page-item <?= $i == $page ? 'active' : '' ?>">
+                                    <a class="page-link" href="?page=<?= $i ?>"><?= $i ?></a>
+                                </li>
+                            <?php endfor; ?>
+                            <?php if ($page < $totalPages): ?>
+                                <li class="page-item">
+                                    <a class="page-link" href="?page=<?= $page + 1 ?>">Sonraki</a>
+                                </li>
+                            <?php endif; ?>
+                        </ul>
+                    </nav>
+                </div>
             </section>
         </main>
     </div>
     <?php include 'include/footer.php'; ?>
     <script src="assets/js/script.js"></script>
-    <script>function showAlert(event) {
-      event.preventDefault();
-      alert('Üzerinde çalışılıyor!');
-    }
-    document.querySelectorAll('.alert-section').forEach(function(element) {
-      element.addEventListener('click', function(event) {
-        event.preventDefault();
-        const sectionName = this.getAttribute('data-section');
-        alert(`${sectionName} kısmı üzerinde çalışmalarımız devam ediyor.`);
-      });
-    });
-    
-</script>
 </body>
+
+
 
 </html>

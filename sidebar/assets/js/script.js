@@ -109,13 +109,16 @@ function updateUserMenu() {
     loginButton.style.display = 'inline-block';
   }
 }
+
 function redirectToHome() {
   window.location.href = "index.php";
 }
+
 function showAlert(event) {
   event.preventDefault();
   alert('Üzerinde çalışılıyor!');
 }
+
 document.querySelectorAll('.alert-section').forEach(function(element) {
   element.addEventListener('click', function(event) {
       event.preventDefault();
@@ -123,6 +126,7 @@ document.querySelectorAll('.alert-section').forEach(function(element) {
       alert(`${sectionName} kısmı üzerinde çalışmalarımız devam ediyor.`);
   });
 });
+
 function editPosition(id, name, location, jobType, isOpen) {
   // Modal içindeki alanları doldur
   document.getElementById('edit_position_id').value = id;
@@ -135,7 +139,6 @@ function editPosition(id, name, location, jobType, isOpen) {
   const editModal = new bootstrap.Modal(document.getElementById('editModal'));
   editModal.show();
 }
-
 
 function deletePosition(id) {
   if (confirm("Bu ilanı silmek istediğinize emin misiniz?")) {
@@ -161,3 +164,20 @@ function deletePosition(id) {
       });
   }
 }
+// DOM Yüklenme Kontrolü
+document.addEventListener("DOMContentLoaded", () => {
+  console.log("DOM tamamen yüklendi.");
+
+  // DOM ile ilişkili işlemleri burada yapabilirsiniz.
+  const alertSections = document.querySelectorAll('.alert-section');
+  if (alertSections.length > 0) {
+    alertSections.forEach(function(element) {
+      element.addEventListener('click', function(event) {
+        event.preventDefault();
+        const sectionName = this.getAttribute('data-section');
+        alert(`${sectionName} kısmı üzerinde çalışmalarımız devam ediyor.`);
+      });
+    });
+  }
+});
+
