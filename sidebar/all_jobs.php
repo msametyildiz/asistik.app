@@ -216,7 +216,7 @@ $sectors = $sectorStmt->fetchAll(PDO::FETCH_ASSOC);
                         </div>
                         <div class="modal-footer">
                             <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">İptal</button>
-                            <button type="submit" class="btn btn-primary">Kaydet</button>
+                            <button type="submit" class="btn btn-primary" style="background-color: #17a2b8;">Kaydet</button>
                         </div>
                     </div>
                 </div>

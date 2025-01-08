@@ -122,7 +122,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                     </label>
                 </div>
                 <!-- Kayıt Ol Butonu -->
-                <button type="submit" class="btn btn-success w-100">Kayıt Ol</button>
+                <button type="submit" class="btn btn-success w-100" style="background-color: #17a2b8;">Kayıt Ol</button>
             </form>
             <p class="mt-4 text-center">Zaten bir hesabınız var mı? <a href="girisyap.php" class="text-decoration-none">Giriş Yapın</a></p>
         </div>

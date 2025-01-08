@@ -124,7 +124,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 <option value="0">Kapalı</option>
               </select>
             </div>
-            <button type="submit" class="submit-btn">Kaydet</button>
+            <button type="submit" class="submit-btn" style="background-color: #17a2b8;">Kaydet</button>
           </form>
         </div>
       </section>

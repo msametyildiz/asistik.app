@@ -113,6 +113,9 @@ function updateUserMenu() {
 function redirectToHome() {
   window.location.href = "index.php";
 }
+function redirectToHomePage() {
+  window.location.href = "../index.php";
+}
 
 function showAlert(event) {
   event.preventDefault();

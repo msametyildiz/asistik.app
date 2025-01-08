@@ -46,7 +46,7 @@
                             <input type="text" id="location" name="location" placeholder="Enter your location">
                         </div>
                         <div class="form-field">
-                            <button type="submit" class="submit-btn">Submit</button>
+                            <button type="submit" class="submit-btn" style="background-color: #17a2b8;">Submit</button>
                         </div>
                     </div>
                 </form>
