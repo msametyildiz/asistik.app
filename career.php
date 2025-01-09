@@ -1,64 +1,364 @@
 <?php
-require 'config.php'; // Veritabanı bağlantısı
+session_start();
+require 'pages/config.php';
 
-// Sektörleri çek
-$stmt = $db->prepare("SELECT id, sector_name FROM sectors WHERE is_open = 1");
+// Kullanıcı oturumda mı?
+$isLoggedIn = isset($_SESSION['logged_in']) && $_SESSION['logged_in'];
+$username = isset($_SESSION['username']) ? $_SESSION['username'] : 'Misafir';
+// Oturum kontrolü
+if (!$isLoggedIn) {
+    header('Location: pages/girisyap.php');
+    exit;
+}
+
+// Sayfa numarasını kontrol et
+$page = isset($_GET['page']) && is_numeric($_GET['page']) ? intval($_GET['page']) : 1;
+$limit = 12; // Her sayfada gösterilecek sektör sayısı
+$offset = ($page - 1) * $limit; // Sektörlerin başlangıç noktası
+
+// Toplam sektör sayısını çek
+$totalStmt = $db->prepare("SELECT COUNT(*) AS total FROM sectors WHERE is_open = 1");
+$totalStmt->execute();
+$totalCount = $totalStmt->fetch(PDO::FETCH_ASSOC)['total'];
+$totalPages = ceil($totalCount / $limit);
+
+// Sektörleri çek (limit ve offset ile)
+$stmt = $db->prepare("SELECT id, sector_name, sector_description FROM sectors WHERE is_open = 1 LIMIT :limit OFFSET :offset");
+$page = isset($_GET['page']) && is_numeric($_GET['page']) ? intval($_GET['page']) : 1;
+if ($page < 1) $page = 1; // Negatif veya 0 değerlerini önleyin
+
+$stmt->bindValue(':limit', $limit, PDO::PARAM_INT);
+$stmt->bindValue(':offset', $offset, PDO::PARAM_INT);
 $stmt->execute();
 $sectors = $stmt->fetchAll(PDO::FETCH_ASSOC);
 ?>
 <!DOCTYPE html>
 <html lang="tr">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Kariyer</title>
+    <link rel="stylesheet" href="assets/css/styles.css">
+    <link rel="shortcut icon" type="image/x-icon" href="assets/images/asistik_logo.png">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
-    <link rel="shortcut icon" type="image/x-icon" href="pic/asistik_logo.png">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+
 
     <style>
-        .back-button {
-            position: fixed;
-            top: 20px;
-            left: 20px;
-            z-index: 1000;
+        .sector-card {
+            perspective: 1000px;
+            height: 200px;
+            /* Kartın boyutunu ayarlayın */
+            border-radius: 8px;
+            /* Kart kenarlarının yuvarlatılması */
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            /* Hafif gölge efekti */
+            overflow: hidden;
+            /* Taşmaları gizleyin */
+            background-color: #fff;
+            /* Kartın arka planını beyaz yapın */
         }
 
-        .page-title {
-            font-size: 2rem;
-            margin-top: 4rem;
+        .card-inner {
+            position: relative;
+            width: 100%;
+            height: 100%;
+            transform-style: preserve-3d;
+            transition: transform 1.2s ease-in-out;
+        }
+
+        .card-front,
+        .card-back {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            backface-visibility: hidden;
+            display: flex;
+            justify-content: center;
+            align-items: center;
             text-align: center;
+            padding: 10px;
         }
 
+        .card-front {
+            background: linear-gradient(90deg, #17a2b8, #6dd5ed);
+            color: white;
+        }
+
+        .card-back {
+               background: linear-gradient(90deg, #17a2b8, #6dd5ed);
+            transform: rotateY(180deg);
+            border: 1px solid #ddd;
+            padding: 20px;
+        }
+
+        .sector-card:hover .card-inner {
+            transform: rotateY(180deg);
+        }
+
+        /* Grid düzeni ve kart boşlukları */
+        .sector-list .row {
+            gap: 20px;
+            /* Kartlar arasında boşluk */
+        }
+
+        .col-md-4.col-lg-3 {
+            padding-bottom: 20px;
+        }
+
+        /* Kartlar İçin Genel Stil */
+        .card-title {
+            font-size: 1.2rem;
+            /* Varsayılan yazı boyutu */
+            font-weight: bold;
+        }
+
+        .card-text {
+            font-size: 1rem;
+            /* Varsayılan yazı boyutu */
+            line-height: 1.4;
+            /* Daha okunabilir bir satır aralığı */
+        }
+
+        /* Küçük Ekranlar İçin Yazı Boyutları */
         @media (max-width: 768px) {
-            .page-title {
-                font-size: 1.5rem; /* Mobilde daha küçük başlık */
-                margin-top: 6rem; /* Geri dön butonu ile çakışmayı önler */
+            .card-title {
+                font-size: 1rem;
+                /* Küçük ekranlarda başlık boyutu */
             }
 
-            .back-button {
-                top: 10px; /* Butonun mobilde yukarı kayması */
-                left: 10px; /* Mobilde biraz daha dar alana oturması */
+            .card-text {
+                font-size: 0.9rem;
+                /* Küçük ekranlarda metin boyutu */
             }
         }
+
+        /* Çok Küçük Ekranlar İçin Yazı Boyutları */
+        @media (max-width: 576px) {
+            .card-title {
+                font-size: 0.9rem;
+                /* Mobil cihazlarda başlık boyutu */
+            }
+
+            .card-text {
+                font-size: 0.8rem;
+                /* Mobil cihazlarda metin boyutu */
+            }
+        }
+
+        /* Responsive Tasarım */
+        @media (max-width: 768px) {
+            .sector-card {
+                height: 200px;
+                /* Küçük ekranlarda kart yüksekliğini azalt */
+            }
+
+            .card-front,
+            .card-back {
+                font-size: 0.9rem;
+                /* Yazı boyutunu küçült */
+            }
+        }
+
+        @media (max-width: 576px) {
+            .sector-card {
+                height: 180px;
+                /* Mobil ekranlarda daha küçük kartlar */
+            }
+
+            .card-front,
+            .card-back {
+                font-size: 0.8rem;
+                padding: 5px;
+            }
+        }
+
+        .pagination .page-item.active .page-link {
+            background-color: #17a2b8;
+            border-color: #17a2b8;
+            color: white;
+        }
+
+        .pagination .page-link {
+            color: #17a2b8;
+            text-decoration: none;
+        }
+
+        .pagination {
+            margin-top: 20px;
+        }
+
+        .pagination .page-item.active .page-link {
+            background-color: #17a2b8;
+            border-color: #17a2b8;
+            color: white;
+        }
+
+        .pagination .page-link {
+            color: #17a2b8;
+            text-decoration: none;
+        }
+
+        .pagination .page-link:hover {
+            background-color: #17a2b8;
+            color: white;
+        }
+
+        .career-opportunities {
+            padding-top: 20px;
+        }
+        .section-header {
+    position: relative;
+    padding: 40px 20px;
+    background: linear-gradient(90deg, #17a2b8, #6dd5ed);
+
+    color: white;
+    border-radius: 10px;
+    margin-bottom: 30px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+}
+
+.section-header .header-title {
+    font-size: 2.5rem;
+    font-weight: bold;
+    margin-bottom: 15px;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+}
+
+.section-header .header-description {
+    font-size: 1.2rem;
+    font-weight: 300;
+    margin: 0;
+    line-height: 1.6;
+}
+
+.section-header .header-content {
+    max-width: 800px;
+    margin: 0 auto;
+    text-align: center;
+}
+
+@media (max-width: 768px) {
+    .section-header {
+        padding: 30px 15px;
+    }
+    .section-header .header-title {
+        font-size: 2rem;
+    }
+    .section-header .header-description {
+        font-size: 1rem;
+    }
+}
+
     </style>
 </head>
+
 <body>
-    <!-- Geri Dön Butonu -->
-    <a href="index.php" class="btn btn-secondary back-button">Ana Sayfa</a>
+    <div id="root">
+        <?php include 'include/sidebar.php'; ?>
+        <main class="dashboard">
+            <nav class="navbar">
+                <button id="toggle-btn" class="toggle-btn" style="padding-left: 15px;">
+                    <img src="assets/images/menu.png" alt="Menu" style="width: 24px; height: 24px;background-color:white !important;">
+                </button>
+            </nav>
+            <section class="career-opportunities">
+                <div class="container">
+                    <header class="section-header text-center">
+                        <div class="header-content">
+                            <h1 class="header-title">Sektörler ve Fırsatlar</h1>
+                            <p class="header-description">Kariyer yolculuğunuzda başarıya ulaşmak için aşağıdaki sektörleri inceleyin ve başvurun.</p>
+                        </div>
+                    </header>
 
-    <div class="container mt-5">
-        <!-- Başlık -->
-        <h1 class="page-title">Başvuruya Açık Sektörler</h1>
 
-        <!-- Sektör Listesi -->
-        <ul class="list-group" style="padding-bottom: 5%;">
-            <?php foreach ($sectors as $sector): ?>
-                <li class="list-group-item d-flex justify-content-between align-items-center">
-                    <?= htmlspecialchars($sector['sector_name']) ?>
-                    <!--<a href="apply.php?sector_id=<?= $sector['id'] ?>" class="btn btn-primary btn-sm">Başvur</a>-->
-                </li>
-            <?php endforeach; ?>
-        </ul>
+                    <div class="sector-list" style="padding-top: 4%;">
+                        <div class="row">
+                            <?php foreach ($sectors as $sector): ?>
+                                <!-- Büyük ve orta ekranlarda 3 kart, küçük ekranlarda 2 kart -->
+                                <div class="col-4 col-md-3 mb-4">
+                                    <div class="card sector-card">
+                                        <div class="card-inner">
+                                            <!-- Kartın Ön Yüzü -->
+                                            <div class="card-front">
+                                                <h5 class="card-title"><?= htmlspecialchars($sector['sector_name']); ?></h5>
+                                            </div>
+
+                                            <!-- Kartın Arka Yüzü -->
+                                            <div class="card-back">
+                                                <p class="card-text"><?= htmlspecialchars($sector['sector_description']); ?></p>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            <?php endforeach; ?>
+                        </div>
+                    </div>
+
+
+                    <nav class="pagination-nav">
+                        <ul class="pagination justify-content-center">
+                            <?php if ($page > 1): ?>
+                                <li class="page-item">
+                                    <a class="page-link" href="?page=<?= $page - 1 ?>">Önceki</a>
+                                </li>
+                            <?php endif; ?>
+                            <?php for ($i = 1; $i <= $totalPages; $i++): ?>
+                                <li class="page-item <?= $i == $page ? 'active' : '' ?>">
+                                    <a class="page-link" href="?page=<?= $i ?>"><?= $i ?></a>
+                                </li>
+                            <?php endfor; ?>
+                            <?php if ($page < $totalPages): ?>
+                                <li class="page-item">
+                                    <a class="page-link" href="?page=<?= $page + 1 ?>">Sonraki</a>
+                                </li>
+                            <?php endif; ?>
+                        </ul>
+                    </nav>
+                </div>
+            </section>
+        </main>
     </div>
+    <?php include 'include/footer.php'; ?>
+    <script src="assets/js/script.js"></script>
+
+    <script>
+        document.addEventListener("DOMContentLoaded", () => {
+            const cards = document.querySelectorAll(".sector-card");
+
+            cards.forEach(card => {
+                const cardInner = card.querySelector(".card-inner");
+
+                card.addEventListener("mouseenter", () => {
+                    cardInner.style.transform = "rotateY(180deg)";
+                });
+
+                card.addEventListener("mouseleave", () => {
+                    cardInner.style.transform = "rotateY(0deg)";
+                });
+            });
+        });
+
+        function showAlert(event) {
+            event.preventDefault();
+            alert('Üzerinde çalışılıyor!');
+        }
+        document.querySelectorAll('.alert-section').forEach(function(element) {
+            element.addEventListener('click', function(event) {
+                event.preventDefault();
+                const sectionName = this.getAttribute('data-section');
+                alert(`${sectionName} kısmı üzerinde çalışmalarımız devam ediyor.`);
+            });
+        });
+    </script>
+
+
 </body>
+
+
+
 </html>
