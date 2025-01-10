@@ -85,7 +85,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     <!-- Bootstrap CSS -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="../assets/css/styles.css">
-    <link rel="shortcut icon" type="image/x-icon" href="assets/images/asistik_logo.png">
+    <link rel="shortcut icon" type="image/x-icon" href="../assets/images/asistik_logo.png">
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 
     <style>
@@ -101,7 +101,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         .card-container {
             margin-top: 6%;
             /* Kartın yukarıdan boşluk bırakmasını sağlar */
-            margin-bottom: 6%;
+    
         }
 
         .register-option {
@@ -155,6 +155,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             text-decoration: none;
             transition: all 0.3s ease;
             box-shadow: 0 4px 10px rgba(23, 162, 184, 0.3);
+            z-index: 1000;
         }
 
         .back-button:hover {
@@ -193,6 +194,11 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 font-size: 0.9rem;
             }
         }
+        @media (max-width: 580) {
+    .card{
+        padding-top: 10%;
+    }
+}
     </style>
 </head>
 
@@ -201,7 +207,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     <a href="register.php" class="back-button">
         <i class="fas fa-arrow-left"></i> Geri
     </a>
-    <div class="container d-flex justify-content-center align-items-center card-container" style="height: 100vh; padding-top:5%;">
+    <div class="container d-flex justify-content-center align-items-center card-container" >
         <div class="card p-4 shadow-lg" style="width: 100%; max-width: 400px;">
             <h2 class="text-center mb-4">İşveren Kayıt</h2>
 

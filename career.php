@@ -300,7 +300,7 @@ $sectors = $stmt->fetchAll(PDO::FETCH_ASSOC);
                     </div>
 
 
-                    <nav class="pagination-nav">
+                    <nav>
                         <ul class="pagination justify-content-center">
                             <?php if ($page > 1): ?>
                                 <li class="page-item">

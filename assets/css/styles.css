@@ -271,79 +271,64 @@
       margin-left: 0;
     }
   }
-  .close-btn {
-    position: absolute;
-    top: 15px; /* Sidebar'ın üstünden mesafe */
-    right: 15px; /* Sidebar'ın sağından mesafe */
-    font-size: 18px; /* Buton yazı boyutu */
-    background: none; /* Arka plan olmadan */
-    border: none; /* Çerçevesiz */
-    color: #333; /* Yazı rengi */
-    cursor: pointer; /* Fare imlecini değiştir */
-    padding: 5px; /* İç boşluk */
-    border-radius: 50%; /* Yuvarlak hatlar için */
-    background-color: #f0f0f0; /* Hafif bir arka plan */
-    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1); /* Hafif gölge efekti */
-    display: none; /* Varsayılan olarak gizli */
+ /* Close Butonu Genel Stil */
+.close-btn {
+  position: absolute;
+  top: 15px; /* Sidebar'ın üstünden mesafe */
+  right: 15px; /* Sidebar'ın sağından mesafe */
+  font-size: 18px; /* Buton yazı boyutu */
+  color: #333; /* Yazı rengi */
+  background-color: #f0f0f0; /* Hafif arka plan */
+  border: none; /* Çerçevesiz */
+  border-radius: 50%; /* Yuvarlak buton */
+  padding: 5px; /* İç boşluk */
+  cursor: pointer; /* Fare imleci değişimi */
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1); /* Hafif gölge efekti */
+  display: none; /* Varsayılan olarak gizli */
+  z-index: 2000; /* Sidebar'ın üstünde */
+  transition: background-color 0.3s ease, transform 0.2s ease; /* Hover geçişleri */
+}
+
+/* Sidebar Açıldığında Close Butonu Görünmesi */
+.sidebar.open .close-btn {
+  display: block; /* Sidebar açıkken görünür */
+}
+
+/* Hover Efekti */
+.close-btn:hover {
+  background-color: #e0e0e0; /* Hover arka plan */
+  transform: scale(1.1); /* Hafif büyütme efekti */
+}
+
+/* Sidebar Küçük Ekranlar için Stil */
+@media (max-width: 480px) {
+  .sidebar {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    width: 90%;
+    height: 90%;
+    transform: translate(-50%, -50%);
+    margin: 0;
+    padding: 5%;
+    background-color: #ffffff; /* Beyaz arka plan */
+    z-index: 1000; /* Sidebar'ın üstte görünmesi */
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2); /* Hafif gölge efekti */
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    transition: transform 0.3s ease-in-out; /* Animasyon geçişi */
   }
-  @media (max-width: 480px) {
-    .sidebar.open .close-btn {
-      display: block; /* 480px'den küçükken ve sidebar açıkken görünür */
-    }
+
+  .sidebar.open {
+    transform: translate(-50%, -50%); /* Sidebar açık */
   }
 
-  .close-btn:hover {
-    background-color: #e0e0e0; /* Üzerine gelince daha koyu arka plan */
-    color: #000; /* Daha koyu yazı rengi */
+  .sidebar.collapsed {
+    transform: translate(-50%, -150%); /* Sidebar kapalı */
   }
-
-  @media (max-width: 480px) {
-    .sidebar {
-      position: fixed;
-      top: 50%;
-      left: 50%;
-      width: 90%;
-      height: 90%;
-      transform: translate(-50%, -50%);
-      margin: 0;
-      padding: 5%;
-      background-color: #ffffff;
-      z-index: 1000;
-      box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
-      display: flex;
-      flex-direction: column;
-      justify-content: center;
-      align-items: center;
-      text-align: center;
-      transition: transform 0.3s ease-in-out;
-    }
-
-    .sidebar.open {
-      transform: translate(-50%, -50%);
-    }
-
-    .sidebar.collapsed {
-      transform: translate(-50%, -150%);
-    }
-
-    .close-btn {
-      position: absolute;
-      top: 15px;
-      right: 15px;
-      font-size: 18px;
-      background: none;
-      border: none;
-      cursor: pointer;
-      color: #333333;
-      padding: 5px;
-      border-radius: 50%;
-      background-color: #f0f0f0;
-      box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
-    }
-
-    .close-btn:hover {
-      background-color: #e0e0e0;
-    }
 
     .nav-links {
       margin: 0;
@@ -610,12 +595,7 @@ body.high-contrast {
   max-width: 25%;
 }
 
-@media (max-width: 768px) {
-  .col-6 {
-    flex: 0 0 50%;
-    max-width: 50%;
-  }
-}
+
 
 /* Görseller */
 .thumb img {
@@ -664,16 +644,22 @@ body.high-contrast {
   margin: 0;
   gap: 5px;
 }
-
+@media (max-width: 768px) {
+  .col-6 {
+    flex: 0 0 33%;
+    max-width: 33%;
+  }
+}
 .row.justify-content-center {
   gap: 5px;
 }
+/* 576 ile 768 arasında 2 card yapar
 
 @media (max-width: 576px) {
   .row.justify-content-center {
     gap: 2px;
   }
-}
+}*/
 
 /* Sidebar Kullanıcı Alanı */
 .sidebar-user {
@@ -753,4 +739,62 @@ body.high-contrast {
   width: 100%; /* Tam genişlik */
   font-size: 14px; /* Yazı boyutu */
   margin-top: 5%;
+}
+.pagination {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  list-style: none;
+  padding: 0;
+  margin: 20px 0;
+  gap: 10px; /* Linkler arası mesafe */
+}
+
+.pagination .page-item {
+  display: inline-block;
+  transition: transform 0.2s ease-in-out;
+}
+
+.pagination .page-link {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  text-decoration: none;
+  color: #17a2b8; /* Varsayılan metin rengi */
+  background-color: #ffffff; /* Beyaz arka plan */
+  border: 1px solid #dee2e6; /* Hafif kenar çerçevesi */
+  padding: 8px 16px; /* İç dolgu */
+  font-size: 14px;
+  font-weight: 500;
+  border-radius: 50px; /* Yuvarlak köşeler */
+  transition: all 0.3s ease;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); /* Hafif gölge */
+}
+
+.pagination .page-link:hover {
+  background-color: #17a2b8; /* Mavi hover rengi */
+  color: #ffffff; /* Beyaz metin */
+  border-color: #17a2b8;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); /* Daha yoğun gölge */
+  transform: translateY(-2px); /* Hafif yukarı hareket */
+}
+
+.pagination .page-item.active .page-link {
+  color: #ffffff; /* Beyaz metin */
+  background-color: #17a2b8; /* Daha koyu mavi */
+  border-color: #17a2b8;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2); /* Aktif olan için daha belirgin gölge */
+  cursor: default;
+}
+
+.pagination .page-item.disabled .page-link {
+  color: #6c757d; /* Gri renk */
+  background-color: #f8f9fa; /* Soluk gri arka plan */
+  border-color: #dee2e6;
+  pointer-events: none; /* Tıklanamaz */
+  box-shadow: none;
+}
+
+.pagination .page-item:hover:not(.active):not(.disabled) {
+  transform: scale(1.05); /* Hafif büyüme efekti */
 }

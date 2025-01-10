@@ -23,7 +23,6 @@ if (isset($success_message)) {
     </script>";
 }
 
-
 // Kullanıcı oturumda mı?
 $isLoggedIn = isset($_SESSION['logged_in']) && $_SESSION['logged_in'];
 $username = isset($_SESSION['username']) ? $_SESSION['username'] : 'Misafir';
@@ -38,16 +37,19 @@ if (!$isLoggedIn) {
 $user_role = $_SESSION['user_role'];
 $user_id = $_SESSION['user_id'];
 
+// Varsayılan parametreler
+$page = isset($_GET['page']) && is_numeric($_GET['page']) ? (int)$_GET['page'] : 1;
+$limit = 10; // Sayfa başına gösterilecek iş ilanı
+$offset = ($page - 1) * $limit; // SQL OFFSET hesaplama
 
-// İş ilanlarını veritabanından çek
-$search_query = '';
-$params = [];
-$sort_order = 'DESC'; // Varsayılan sıralama
-
-// Search formundan gelen veriler
+// Search sorgusu ve diğer filtreler
 $search = isset($_GET['search']) ? $_GET['search'] : '';
 $job_type = isset($_GET['job_type']) ? $_GET['job_type'] : '';
 $sort = isset($_GET['sort']) ? $_GET['sort'] : 'newest';
+
+$search_query = "";
+$params = [];
+$sort_order = $sort === 'oldest' ? 'ASC' : 'DESC';
 
 // Search (position_name ve sector_name'de arama)
 if (!empty($search)) {
@@ -62,9 +64,6 @@ if (!empty($job_type)) {
     $params[] = $job_type;
 }
 
-// Sort (updated_at'e göre sıralama)
-$sort_order = $sort === 'oldest' ? 'ASC' : 'DESC';
-
 // Dinamik SQL sorgusu
 $sql = "
     SELECT positions.id, positions.position_name, sectors.sector_name, positions.location, positions.updated_at, positions.job_type, positions.employer_id, positions.is_open
@@ -72,18 +71,19 @@ $sql = "
     JOIN sectors ON positions.sector_id = sectors.id 
     WHERE 1=1 $search_query
     ORDER BY (positions.employer_id = ?) DESC, positions.updated_at $sort_order
+    LIMIT $limit OFFSET $offset
 ";
 $params[] = $user_id; // Kullanıcı önceliği parametresi
 
-// Sorguyu hazırlayıp çalıştırma
 $stmt = $db->prepare($sql);
 $stmt->execute($params);
 $positions = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
-// İş ilanı sayısını çek
+// Toplam iş sayısını çek
 $countStmt = $db->prepare("SELECT COUNT(*) AS count FROM positions JOIN sectors ON positions.sector_id = sectors.id WHERE 1=1 $search_query");
 $countStmt->execute(array_slice($params, 0, count($params) - 1)); // Kullanıcı önceliği parametresini çıkarıyoruz
 $job_count = $countStmt->fetch(PDO::FETCH_ASSOC)['count'];
+$total_pages = ceil($job_count / $limit);
 
 // Sektör bilgileri
 $sectorStmt = $db->prepare("SELECT id, sector_name FROM sectors WHERE is_open = 1");
@@ -105,7 +105,6 @@ $sectors = $sectorStmt->fetchAll(PDO::FETCH_ASSOC);
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
-
 </head>
 
 <body>
@@ -167,114 +166,73 @@ $sectors = $sectorStmt->fetchAll(PDO::FETCH_ASSOC);
 
                     <?php endforeach; ?>
                 </div>
+
+                <!-- Pagination Linkleri -->
+                <nav>
+                    <ul class="pagination justify-content-center">
+                        <?php if ($page > 1): ?>
+                            <li class="page-item">
+                                <a class="page-link" href="?<?= http_build_query(array_merge($_GET, ['page' => $page - 1])); ?>">Önceki</a>
+                            </li>
+                        <?php endif; ?>
+
+                        <?php for ($i = 1; $i <= $total_pages; $i++): ?>
+                            <li class="page-item <?= $i == $page ? 'active' : ''; ?>">
+                                <a class="page-link" href="?<?= http_build_query(array_merge($_GET, ['page' => $i])); ?>"><?= $i; ?></a>
+                            </li>
+                        <?php endfor; ?>
+
+                        <?php if ($page < $total_pages): ?>
+                            <li class="page-item">
+                                <a class="page-link" href="?<?= http_build_query(array_merge($_GET, ['page' => $page + 1])); ?>">Sonraki</a>
+                            </li>
+                        <?php endif; ?>
+                    </ul>
+                </nav>
             </section>
         </main>
     </div>
 
-    <!-- Düzenleme Modalı -->
-    <div class="modal fade" id="editModal" tabindex="-1" aria-hidden="true">
-        <div class="modal-dialog modal-dialog-centered">
-            <form method="POST">
-                <input type="hidden" name="action" value="update">
-                <input type="hidden" name="position_id" id="edit_position_id">
-                <div class="modal-content">
-                    <div class="modal-header">
-                        <h5 class="modal-title">Pozisyon Düzenle</h5>
-                        <button type="button" data-bs-dismiss="modal" aria-label="Close" style="background: none; border: none; font-size: 1.5rem;">&times;</button>
-                    </div>
-                    <div class="modal-body">
-                        <div class="mb-4">
-                            <label for="edit_position_name" class="form-label">Pozisyon Adı</label>
-                            <input type="text" name="position_name" id="edit_position_name" class="form-control" required>
-                        </div>
-                        <div class="mb-4">
-                            <label for="edit_location" class="form-label">Lokasyon</label>
-                            <input type="text" name="location" id="edit_location" class="form-control" required>
-                        </div>
-                        <div class="mb-4">
-                            <label for="edit_job_type" class="form-label">İş Türü</label>
-                            <select name="job_type" id="edit_job_type" class="form-control" required>
-                                <option value="full-time">Full-Time</option>
-                                <option value="part-time">Part-Time</option>
-                                <option value="internship">Internship</option>
-                            </select>
-                        </div>
-                        <div class="mb-4">
-                            <label for="edit_sector_id" class="form-label">Sektör</label>
-                            <select name="sector_id" id="edit_sector_id" class="form-control" required>
-                                <?php foreach ($sectors as $sector): ?>
-                                    <option value="<?= $sector['id'] ?>"><?= htmlspecialchars($sector['sector_name']); ?></option>
-                                <?php endforeach; ?>
-                            </select>
-                        </div>
-                        <div class="mb-4">
-                            <label for="edit_is_open" class="form-label">Durum</label>
-                            <select name="is_open" id="edit_is_open" class="form-control" required>
-                                <option value="1">Açık</option>
-                                <option value="0">Kapalı</option>
-                            </select>
-                        </div>
-                        <div class="modal-footer">
-                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">İptal</button>
-                            <button type="submit" class="btn btn-primary" style="background-color: #17a2b8;">Kaydet</button>
-                        </div>
-                    </div>
-                </div>
-            </form>
-        </div>
-    </div>
-
-
     <?php include 'include/footer.php'; ?>
     <script src="assets/js/script.js"></script>
     <script>
-        $(document).ready(function() {
-            // İş ilanlarını dinamik olarak getirir
-            function fetchJobs() {
-                $.get('all_jobs.php', $('#search-form').serialize(), function(data) {
-                    $('#job-cards').html($(data).find('#job-cards').html());
-                    $('#job-count-title').text($(data).find('#job-count-title').text());
+        $(document).ready(function () {
+            function fetchJobs(page = 1) {
+                const formData = $('#search-form').serialize() + `&page=${page}`;
+                $.get('all_jobs.php', formData, function (data) {
+                    const jobCards = $(data).find('#job-cards').html();
+                    const pagination = $(data).find('.pagination').html();
+                    const jobCount = $(data).find('#job-count-title').text();
+
+                    if (jobCards && pagination && jobCount) {
+                        $('#job-cards').html(jobCards);
+                        $('.pagination').html(pagination);
+                        $('#job-count-title').text(jobCount);
+                    } else {
+                        console.error("Gelen veriler eksik veya hatalı!");
+                    }
+                }).fail(function () {
+                    console.error("İş ilanları yüklenirken bir hata oluştu.");
                 });
             }
 
-            // Search kısmında her harf yazıldığında çalışır
-            $('#search').on('keyup', function() {
-                fetchJobs();
+            $('#search, #job-type, #sort').on('input change', function () {
+                fetchJobs(1);
             });
 
-            // Job Type ve Sort seçenekleri değiştiğinde çalışır
-            $('#job-type, #sort').on('change', function() {
-                fetchJobs();
+            $(document).on('click', '.pagination a', function (e) {
+                e.preventDefault();
+                const page = $(this).attr('href').split('page=')[1];
+                fetchJobs(page);
             });
 
-            // Reset butonuna tıklandığında filtreleri sıfırlar
-            $('#reset-btn').on('click', function() {
-                $('#search-form')[0].reset(); // Formu sıfırlar
-                fetchJobs(); // Varsayılan listeyi getirir
+            $('#reset-btn').on('click', function () {
+                $('#search-form')[0].reset();
+                fetchJobs(1);
+                history.pushState(null, null, 'all_jobs.php');
             });
         });
     </script>
-
-    <?php
-    // İş ilanı güncelleme işlemi
-    if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['action']) && $_POST['action'] === 'update' && $user_role === 'employer') {
-        $position_id = $_POST['position_id'] ?? null;
-        $position_name = trim($_POST['position_name'] ?? '');
-        $location = trim($_POST['location'] ?? '');
-        $job_type = $_POST['job_type'] ?? '';
-        $sector_id = $_POST['sector_id'] ?? null;
-        $is_open = $_POST['is_open'] ?? null;
-
-        if (!empty($position_id) && !empty($position_name) && !empty($location) && !empty($job_type) && !empty($sector_id) && isset($is_open)) {
-            $updateStmt = $db->prepare("UPDATE positions SET position_name = ?, location = ?, job_type = ?, sector_id = ?, is_open = ?, updated_at = NOW() WHERE id = ? AND employer_id = ?");
-            $updateStmt->execute([$position_name, $location, $job_type, $sector_id, $is_open, $position_id, $user_id]);
-            header('Location: all_jobs.php');
-            exit;
-        } else {
-            echo '<script>alert("Lütfen tüm alanları doldurunuz!");</script>';
-        }
-    }
-    ?>
 </body>
 
 </html>

@@ -82,7 +82,8 @@
         alert(`${sectionName} kısmı üzerinde çalışmalarımız devam ediyor.`);
       });
     });
-    const sidebar = document.getElementById("mySidebar");
+const sidebar = document.querySelector('.sidebar');
+const closeButton = document.querySelector('.close-btn');
     const mainContent = document.querySelector(".main-content");
     const headerArea = document.querySelector(".header-area");
     const toggleButton = document.getElementById("sidebarToggle");

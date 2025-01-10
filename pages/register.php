@@ -8,7 +8,7 @@
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     
   <link rel="stylesheet" href="../assets/css/styles.css">
-  <link rel="shortcut icon" type="image/x-icon" href="assets/images/asistik_logo.png">
+  <link rel="shortcut icon" type="image/x-icon" href="../assets/images/asistik_logo.png">
   <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 
     <style>
@@ -101,6 +101,11 @@
         font-size: 0.9rem;
     }
 }
+@media (max-width: 480px) {
+    .container{
+        padding-top: 0.1%;
+    }
+}
 
     </style>
 </head>
@@ -115,12 +120,12 @@
                 <h1 class="page-title">Kayıt Türü Seçin</h1>
                 <div class="register-option">
                     <!-- İşveren Kaydı -->
-                    <div class="option" onclick="location.href='employer_register.php'">
+                    <div class="option" onclick="location.href='employer_register.php'" style="background-color: #17a2b8;">
                         <img src="pic/isveren_kayit.png" alt="İşveren">
                         <p>İşveren Kaydı</p>
                     </div>
                     <!-- Kariyer Girişi -->
-                    <div class="option" onclick="location.href='career_register.php'">
+                    <div class="option" onclick="location.href='career_register.php'" style="background-color: #17a2b8;">
                         <img src="pic/kariyer_kayit.png" alt="Kariyer">
                         <p>Kariyer Kaydı</p>
                     </div>
