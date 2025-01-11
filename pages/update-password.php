@@ -52,7 +52,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         echo "<script>
             alert('Şifreniz başarıyla güncellendi.');
             setTimeout(function() {
-                window.location.href = 'girisyap.php';
+                window.location.href = 'login.php';
             }, 2000); // 2 saniye gecikme
         </script>";
 

@@ -12,7 +12,7 @@
     </div>
   <?php else: ?>
     <div class="sidebar-user">
-      <a href="pages/girisyap.php" class="btn btn-info" style="background-color: #17a2b8;">Giriş Yap</a>
+      <a href="pages/login.php" class="btn btn-info" style="background-color: #17a2b8;">Giriş Yap</a>
     </div>
   <?php endif; ?>
 

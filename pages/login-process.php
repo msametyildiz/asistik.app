@@ -10,7 +10,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     // Eğer e-posta veya şifre boşsa hata döndür
     if (empty($email) || empty($password)) {
         $_SESSION['error'] = 'E-posta veya şifre boş olamaz!';
-        header('Location: girisyap.php');
+        header('Location: login.php');
         exit;
     }
 
@@ -25,7 +25,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             // Onay bekleyen hesaplar için kontrol
             if ($user['role'] === 'employer' && $user['is_pending'] == 1) {
                 $_SESSION['error'] = 'Hesabınız henüz onaylanmamıştır. Lütfen bekleyiniz.';
-                header('Location: girisyap.php');
+                header('Location: login.php');
                 exit;
             }
             // Kullanıcı oturum bilgilerini sakla
@@ -41,18 +41,18 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         } else {
             // Geçersiz giriş durumunda hata mesajı
             $_SESSION['error'] = 'Geçersiz e-posta veya şifre!';
-            header('Location: girisyap.php');
+            header('Location: login.php');
             exit;
         }
     } catch (PDOException $e) {
         // Veritabanı hatası durumunda
         $_SESSION['error'] = 'Bir hata oluştu: ' . $e->getMessage();
-        header('Location: girisyap.php');
+        header('Location: login.php');
         exit;
     }
 } else {
     // Doğrudan erişim engelleme
     $_SESSION['error'] = 'Bu sayfaya doğrudan erişim yapılamaz!';
-    header('Location: girisyap.php');
+    header('Location: login.php');
     exit;
 }

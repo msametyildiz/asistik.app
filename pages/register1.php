@@ -61,7 +61,7 @@ if ($_POST) {
         // Kayıt başarılı mesajı
         echo "<div style='text-align: center; margin-top: 50px;'>";
         echo "<h3>Kayıt başarılı!</h3>";
-        echo "<a href='girisyap.php' style='text-decoration: none; color: blue;'>Giriş yap</a> sayfasına gidin.";
+        echo "<a href='login.php' style='text-decoration: none; color: blue;'>Giriş yap</a> sayfasına gidin.";
         echo "</div>";
     } catch (PDOException $e) {
         // Hata kontrolü: Aynı e-posta adresi mevcutsa
@@ -108,7 +108,7 @@ if ($_POST) {
                 <!-- Kayıt Ol Butonu -->
                 <button type="submit" class="btn btn-success w-100">Kayıt Ol</button>
             </form>
-            <p class="mt-4 text-center">Zaten bir hesabınız var mı? <a href="girisyap.php" class="text-decoration-none">Giriş Yapın</a></p>
+            <p class="mt-4 text-center">Zaten bir hesabınız var mı? <a href="login.php" class="text-decoration-none">Giriş Yapın</a></p>
         </div>
     </div>
     <!-- Bootstrap JS -->

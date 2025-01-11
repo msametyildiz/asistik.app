@@ -111,7 +111,7 @@
 </head>
 <body>
       <!-- Geri Butonu -->
-      <a href="girisyap.php" class="back-button">
+      <a href="login.php" class="back-button">
         <i class="fas fa-arrow-left"></i> Geri
     </a>
     <div id="root">

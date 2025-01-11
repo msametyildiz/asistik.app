@@ -58,7 +58,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 $successMessage = "Kayıt işleminiz başarılıdır. E-posta adresinize bilgi gönderilmiştir.";
                 echo "<script>
                     setTimeout(function() {
-                        window.location.href = 'girisyap.php';
+                        window.location.href = 'login.php';
                     }, 2000);
                 </script>";
             } catch (Exception $e) {
@@ -269,7 +269,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 <!-- Kayıt Ol Butonu -->
                 <button type="submit" class="btn btn-success w-100" style="background-color: #17a2b8;">Kayıt Ol</button>
             </form>
-            <p class="mt-4 text-center">Zaten bir hesabınız var mı? <a href="girisyap.php" class="text-decoration-none" style="color: #17a2b8;">Giriş Yapın</a></p>
+            <p class="mt-4 text-center">Zaten bir hesabınız var mı? <a href="login.php" class="text-decoration-none" style="color: #17a2b8;">Giriş Yapın</a></p>
         </div>
     </div>
     <?php include '../include/footer.php'; ?>

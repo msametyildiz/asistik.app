@@ -9,7 +9,7 @@ $username = isset($_SESSION['username']) ? $_SESSION['username'] : 'Misafir';
 
 // Oturum kontrolü
 if (!$isLoggedIn) {
-  header('Location: pages/girisyap.php');
+  header('Location: pages/login.php');
   exit;
 }
 

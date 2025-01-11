@@ -7,7 +7,7 @@ $isLoggedIn = isset($_SESSION['logged_in']) && $_SESSION['logged_in'];
 $username = isset($_SESSION['username']) ? $_SESSION['username'] : 'Misafir';
 // Oturum kontrolü
 if (!$isLoggedIn) {
-    header('Location: pages/girisyap.php');
+    header('Location: pages/login.php');
     exit;
 }
 
@@ -300,7 +300,7 @@ $sectors = $stmt->fetchAll(PDO::FETCH_ASSOC);
                     </div>
 
 
-                    <nav>
+                    <nav class="pagination-nav">
                         <ul class="pagination justify-content-center">
                             <?php if ($page > 1): ?>
                                 <li class="page-item">

@@ -47,7 +47,7 @@
             <div id="responseMessage" class="alert d-none" role="alert"></div>
 
             <p class="text-center mt-4">
-                <a href="girisyap.php" class="text-decoration-none">Giriş sayfasına dön</a>
+                <a href="login.php" class="text-decoration-none">Giriş sayfasına dön</a>
             </p>
         </div>
     </div>

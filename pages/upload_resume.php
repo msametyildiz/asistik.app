@@ -12,7 +12,7 @@ $username = isset($_SESSION['username']) ? $_SESSION['username'] : 'Misafir';
 
 // Oturum kontrolü
 if (!$isLoggedIn) {
-    header('Location: pages/girisyap.php');
+    header('Location: pages/login.php');
     exit;
 }
 
@@ -76,7 +76,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 $mail->Host = 'smtp.gmail.com';
                 $mail->SMTPAuth = true;
                 $mail->Username = 'samet.saray.06@gmail.com'; // Değiştir
-                $mail->Password = 'sazjvbfajhwnketb'; // Değiştir
+                $mail->Password = '
+                '; // Değiştir
                 $mail->SMTPSecure = PHPMailer::ENCRYPTION_STARTTLS;
                 $mail->Port = 587;
                 $mail->CharSet = 'UTF-8';
@@ -159,7 +160,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 </div>
             <?php else: ?>
                 <div class="sidebar-user">
-                    <a href="../pages/girisyap.php" class="btn btn-info">Giriş Yap</a>
+                    <a href="../pages/login.php" class="btn btn-info">Giriş Yap</a>
                 </div>
             <?php endif; ?>
 
