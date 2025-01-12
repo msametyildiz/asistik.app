@@ -90,6 +90,25 @@ $sectorStmt = $db->prepare("SELECT id, sector_name FROM sectors WHERE is_open = 
 $sectorStmt->execute();
 $sectors = $sectorStmt->fetchAll(PDO::FETCH_ASSOC);
 
+// İş ilanı güncelleme işlemi
+if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['action']) && $_POST['action'] === 'update' && $user_role === 'employer') {
+    $position_id = $_POST['position_id'] ?? null;
+    $position_name = trim($_POST['position_name'] ?? '');
+    $location = trim($_POST['location'] ?? '');
+    $job_type = $_POST['job_type'] ?? '';
+    $sector_id = $_POST['sector_id'] ?? null;
+    $is_open = $_POST['is_open'] ?? null;
+
+    if (!empty($position_id) && !empty($position_name) && !empty($location) && !empty($job_type) && !empty($sector_id) && isset($is_open)) {
+        $updateStmt = $db->prepare("UPDATE positions SET position_name = ?, location = ?, job_type = ?, sector_id = ?, is_open = ?, updated_at = NOW() WHERE id = ? AND employer_id = ?");
+        $updateStmt->execute([$position_name, $location, $job_type, $sector_id, $is_open, $position_id, $user_id]);
+        header('Location: all_jobs.php');
+        exit;
+    } else {
+        echo '<script>alert("Lütfen tüm alanları doldurunuz!");</script>';
+    }
+}
+
 ?>
 
 <!DOCTYPE html>
@@ -192,7 +211,58 @@ $sectors = $sectorStmt->fetchAll(PDO::FETCH_ASSOC);
             </section>
         </main>
     </div>
-
+<!-- Düzenleme Modalı -->
+<div class="modal fade" id="editModal" tabindex="-1" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+        <form method="POST">
+            <input type="hidden" name="action" value="update">
+            <input type="hidden" name="position_id" id="edit_position_id">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Pozisyon Düzenle</h5>
+                    <button type="button" data-bs-dismiss="modal" aria-label="Close" style="background: none; border: none; font-size: 1.5rem;">&times;</button>
+                </div>
+                <div class="modal-body">
+                    <div class="mb-4">
+                        <label for="edit_position_name" class="form-label">Pozisyon Adı</label>
+                        <input type="text" name="position_name" id="edit_position_name" class="form-control" required>
+                    </div>
+                    <div class="mb-4">
+                        <label for="edit_location" class="form-label">Lokasyon</label>
+                        <input type="text" name="location" id="edit_location" class="form-control" required>
+                    </div>
+                    <div class="mb-4">
+                        <label for="edit_job_type" class="form-label">İş Türü</label>
+                        <select name="job_type" id="edit_job_type" class="form-control" required>
+                            <option value="full-time">Full-Time</option>
+                            <option value="part-time">Part-Time</option>
+                            <option value="internship">Internship</option>
+                        </select>
+                    </div>
+                    <div class="mb-4">
+                        <label for="edit_sector_id" class="form-label">Sektör</label>
+                        <select name="sector_id" id="edit_sector_id" class="form-control" required>
+                            <?php foreach ($sectors as $sector): ?>
+                                <option value="<?= $sector['id'] ?>"><?= htmlspecialchars($sector['sector_name']); ?></option>
+                            <?php endforeach; ?>
+                        </select>
+                    </div>
+                    <div class="mb-4">
+                        <label for="edit_is_open" class="form-label">Durum</label>
+                        <select name="is_open" id="edit_is_open" class="form-control" required>
+                            <option value="1">Açık</option>
+                            <option value="0">Kapalı</option>
+                        </select>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">İptal</button>
+                        <button type="submit" class="btn btn-primary" style="background-color: #17a2b8;">Kaydet</button>
+                    </div>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
     <?php include 'include/footer.php'; ?>
     <script src="assets/js/script.js"></script>
     <script>
@@ -231,7 +301,19 @@ $sectors = $sectorStmt->fetchAll(PDO::FETCH_ASSOC);
                 fetchJobs(1);
                 history.pushState(null, null, 'all_jobs.php');
             });
-        });
+        }); 
+        function editPosition(id, name, location, jobType, isOpen) {
+        // Modal alanlarını doldur
+        document.getElementById('edit_position_id').value = id;
+        document.getElementById('edit_position_name').value = name;
+        document.getElementById('edit_location').value = location;
+        document.getElementById('edit_job_type').value = jobType;
+        document.getElementById('edit_is_open').value = isOpen;
+
+        // Modal'ı göster
+        var editModal = new bootstrap.Modal(document.getElementById('editModal'));
+        editModal.show();
+    }
     </script>
 </body>
 

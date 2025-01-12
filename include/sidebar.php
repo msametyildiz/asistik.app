@@ -27,7 +27,9 @@
     <?php endif; ?>
     <li><a href="all_jobs.php" data-tooltip="Tüm İşler"><span>📄</span> Tüm İşler</a></li>
     <li><a href="#" data-section="İstatistik" id="istatistik-link" class="alert-section"><span>📊</span> İstatistik</a></li>
-    <li><a href="profile.php" data-tooltip="Profil"><span>👤</span> Profil</a></li>
+    <?php if ($isLoggedIn): ?>
+      <li><a href="profile.php" data-tooltip="Profil"><span>👤</span> Profil</a></li>
+    <?php endif; ?>
   </div>
 
   <?php if ($isLoggedIn): ?>

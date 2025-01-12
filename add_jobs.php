@@ -31,27 +31,15 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
   $is_open = $_POST['is_open'] ?? '1'; // Varsayılan açık
 
   if (!empty($sector_id) && !empty($position_name) && !empty($location) && !empty($job_type)) {
-    $insertStmt = $db->prepare("
-            INSERT INTO positions (employer_id, sector_id, position_name, location, job_type, is_open, created_at, updated_at) 
-            VALUES (?, ?, ?, ?, ?, ?, NOW(), NOW())
-        ");
+    $insertStmt = $db->prepare("INSERT INTO positions (employer_id, sector_id, position_name, location, job_type, is_open, created_at, updated_at) VALUES (?, ?, ?, ?, ?, ?, NOW(), NOW())");
     $insertStmt->execute([$user_id, $sector_id, $position_name, $location, $job_type, $is_open]);
 
-    if (!empty($sector_id) && !empty($position_name) && !empty($location) && !empty($job_type)) {
-      $insertStmt = $db->prepare("
-          INSERT INTO positions (employer_id, sector_id, position_name, location, job_type, is_open, created_at, updated_at) 
-          VALUES (?, ?, ?, ?, ?, ?, NOW(), NOW())
-      ");
-      $insertStmt->execute([$user_id, $sector_id, $position_name, $location, $job_type, $is_open]);
-      
-      // Oturum değişkenine başarı mesajını kaydet
-      $_SESSION['success_message'] = "İlan başarıyla eklendi!";
-      
-      // all_jobs.php sayfasına yönlendir
-      header('Location: all_jobs.php');
-      exit;
-  }
-  
+    // Oturum değişkenine başarı mesajını kaydet
+    $_SESSION['success_message'] = "İlan başarıyla eklendi!";
+
+    // all_jobs.php sayfasına yönlendir
+    header('Location: all_jobs.php');
+    exit;
   } else {
     $error_message = "Lütfen tüm alanları doldurunuz!";
   }

@@ -331,7 +331,7 @@ $totalPages = ceil($totalCount / $limit);
 </head>
 
 <body>
-    <<div class="container-fluid">
+    <div class="container-fluid">
         <div class="container-custom">
             <h1>Onay Bekleyen İşverenler</h1>
             <div class="search-box">

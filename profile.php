@@ -26,7 +26,7 @@ if (!$userData) {
 
 // Güncelleme işlemi
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-    $firstName = trim($_POST['firstName'] ?? '');
+    $first_name = trim($_POST['first_name'] ?? '');
     $lastName = trim($_POST['lastName'] ?? '');
     $email = trim($_POST['email'] ?? '');
     $phone = trim($_POST['phone'] ?? '');
@@ -37,15 +37,13 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     if (!empty($password) && $password !== $confirmPassword) {
         $error_message = 'Parolalar uyuşmuyor!';
     } else {
-        // Parola hashleme
         $passwordHash = !empty($password) ? password_hash($password, PASSWORD_BCRYPT) : $userData['password'];
 
-        // Veritabanı güncellemesi
         $updateStmt = $db->prepare(
             "UPDATE users SET first_name = ?, last_name = ?, email = ?, phone = ?, password = ?, company_name = ? WHERE id = ?"
         );
         $updateStmt->execute([
-            $firstName,
+            $first_name,
             $lastName,
             $email,
             $phone,
@@ -54,13 +52,37 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             $user_id
         ]);
 
-        $success_message = 'Bilgiler başarıyla güncellendi.';
-        // Verileri yeniden yükle
-        $stmt->execute([$user_id]);
-        $userData = $stmt->fetch(PDO::FETCH_ASSOC);
+        // Başarı mesajını oturumda saklayın
+        $_SESSION['success_message'] = 'Bilgiler başarıyla güncellendi.';
+        
+        // Sayfayı yeniden yönlendirin
+        header('Location: profile.php');
+        exit;
     }
 }
+
+// Başarı mesajını kontrol et
+if (isset($_SESSION['success_message'])) {
+    $success_message = $_SESSION['success_message'];
+    unset($_SESSION['success_message']);
+}
+
 ?>
+<?php if (!empty($success_message)): ?>
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            Swal.fire({
+                icon: 'success',
+                title: 'Başarılı',
+                text: '<?= htmlspecialchars($success_message) ?>',
+                confirmButtonText: 'Tamam',
+                customClass: {
+                    popup: 'swal-wide' // Eğer özelleştirme gerekiyorsa CSS eklenebilir
+                }
+            });
+        });
+    </script>
+<?php endif; ?>
 
 <!DOCTYPE html>
 <html lang="en">
@@ -72,7 +94,16 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     <link rel="stylesheet" href="assets/css/styles.css">
     <link rel="stylesheet" href="assets/css/profile.css">
     <link rel="shortcut icon" type="image/x-icon" href="assets/images/asistik_logo.png">
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
     <!--<script src="assets/js/disable_keys.js"></script>-->
+    <style>
+    .swal-wide {
+        width: 400px !important; /* Genişlik özelleştirme */
+        font-size: 1.2rem;       /* Yazı boyutu */
+    }
+</style>
+
     </head>
 
     <body>
@@ -107,8 +138,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 <form method="post" action="" class="profile-form">
                     <div class="form-group">
                         <div class="form-field">
-                            <label for="firstName">Ad</label>
-                            <input type="text" id="firstName" name="name" value="<?= htmlspecialchars($userData['first_name']) ?>" required>
+                            <label for="first_name">Ad</label>
+                            <input type="text" id="first_name" name="first_name" value="<?= htmlspecialchars($userData['first_name']) ?>" required>
                         </div>
                         <div class="form-field">
                             <label for="lastName">Soyad</label>

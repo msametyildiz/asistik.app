@@ -442,33 +442,7 @@ select {
     opacity: var(--bs-btn-close-disabled-opacity); /* Disabled durumunda şeffaflık */
     cursor: not-allowed;
 }
-.pagination-container {
-    display: flex;
-    justify-content: center;
-    margin-top: 20px;
-}
 
-.pagination-link {
-    display: inline-block;
-    padding: 10px 15px;
-    margin: 0 5px;
-    border: 1px solid #ddd;
-    border-radius: 5px;
-    color: #007bff;
-    text-decoration: none;
-    transition: background-color 0.3s, color 0.3s;
-}
-
-.pagination-link.active {
-    background-color: #007bff;
-    color: #fff;
-    pointer-events: none;
-}
-
-.pagination-link:hover {
-    background-color: #0056b3;
-    color: #fff;
-}
 .editable-card {
     background-color: hsla(0, 0%, 86%, 0.3); /* Açık sarı bir arka plan rengi */
     border: 1px solid rgba(220, 220, 220, 0.775); /* Uyumlu bir kenarlık rengi */
