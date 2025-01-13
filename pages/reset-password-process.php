@@ -58,13 +58,13 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             $mail->isSMTP();
             $mail->Host = 'smtp.gmail.com'; // SMTP sunucusu
             $mail->SMTPAuth = true;
-            $mail->Username = 'samet.saray.06@gmail.com'; // SMTP kullanıcı adı
-            $mail->Password = 'sazjvbfajhwnketb'; // SMTP şifresi
+            $mail->Username = 'info.asistik@gmail.com'; // SMTP kullanıcı adı
+            $mail->Password = 'mody xldl biyv hfmg'; // SMTP şifresi
             $mail->SMTPSecure = PHPMailer::ENCRYPTION_STARTTLS;
             $mail->Port = 587;
 
             // Gönderici ve alıcı bilgileri
-            $mail->setFrom('samet.saray.06@gmail.com', 'Asistik');
+            $mail->setFrom('info.asistik@gmail.com', 'Asistik');
             $mail->addAddress($email);
 
             // E-posta içeriği

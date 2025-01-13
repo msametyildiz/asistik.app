@@ -16,8 +16,8 @@ class Mailer
             $mail->isSMTP();
             $mail->Host = 'smtp.gmail.com'; // SMTP sunucusu
             $mail->SMTPAuth = true;
-            $mail->Username = 'samet.saray.06@gmail.com'; // SMTP kullanıcı adı
-            $mail->Password = 'sazjvbfajhwnketb'; // SMTP şifresi veya uygulama şifresi
+            $mail->Username = 'info.asistik@gmail.com'; // SMTP kullanıcı adı
+            $mail->Password = 'mody xldl biyv hfmg'; // SMTP şifresi veya uygulama şifresi
             $mail->SMTPSecure = PHPMailer::ENCRYPTION_STARTTLS; // Şifreleme yöntemi
             $mail->Port = 587; // SMTP portu
 

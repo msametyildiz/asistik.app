@@ -26,12 +26,12 @@ function handleUserAction($db, $action, $userId)
         $mail->isSMTP();
         $mail->Host = 'smtp.gmail.com';
         $mail->SMTPAuth = true;
-        $mail->Username = 'samet.saray.06@gmail.com'; // Gmail adresinizi girin
-        $mail->Password = 'sazjvbfajhwnketb'; // Gmail uygulama şifresini girin
+        $mail->Username = 'info.asistik@gmail.com'; // Gmail adresinizi girin
+        $mail->Password = 'mody xldl biyv hfmg'; // Gmail uygulama şifresini girin
         $mail->SMTPSecure = PHPMailer::ENCRYPTION_STARTTLS;
         $mail->Port = 587;
         $mail->CharSet = 'UTF-8';
-        $mail->setFrom('samet.saray.06@gmail.com', 'Asistik');
+        $mail->setFrom('info.asistik@gmail.com', 'Asistik');
 
         /*______________________________________________________________________*/
         if ($action === 'approve') {
