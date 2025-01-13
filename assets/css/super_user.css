@@ -115,3 +115,76 @@ footer {
         font-size: 0.7rem;
     }
 }
+/* Navbar Genel Stil */
+.navbar {
+    padding: 0.8rem 1rem;
+    font-family: 'Arial', sans-serif;
+    background: linear-gradient(135deg, #e0f7fa, #17a2b8);
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+.navbar .navbar-brand {
+    font-size: 1.4rem;
+    font-weight: bold;
+    color: #17a2b8;
+    display: flex;
+    align-items: center;
+}
+.navbar .navbar-brand .logo {
+    height: 40px;
+    width: auto;
+    margin-right: 10px;
+}
+.navbar .nav-link {
+    color: #0e0101;
+    font-size: 1rem;
+    padding: 0.5rem 1rem;
+    transition: color 0.3s ease;
+}
+.navbar .nav-link:hover {
+    color: #e0f7fa;
+    font-weight: bold;
+}
+.navbar .dropdown-menu {
+    background-color: #ffffff;
+    border: none;
+    box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
+}
+.navbar .dropdown-menu .dropdown-item {
+    color: #333;
+    transition: background-color 0.3s ease, color 0.3s ease;
+}
+.navbar .dropdown-menu .dropdown-item:hover {
+    background-color: #e0f7fa;
+    color: #17a2b8;
+}
+
+/* Toggler Buton (Mobil için) */
+.navbar .navbar-toggler {
+    border: none;
+    background-color: #138c9c;
+    padding: 0.4rem 0.8rem;
+    border-radius: 5px;
+}
+.navbar .navbar-toggler .navbar-toggler-icon {
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 30 30'%3E%3Cpath stroke='rgba%28255, 255, 255, 1%29' stroke-width='2' d='M4 7h22M4 15h22M4 23h22'/%3E%3C/svg%3E");
+}
+
+/* Kullanıcı Bilgileri */
+.navbar .dropdown-toggle {
+    color: #000000;
+    font-weight: bold;
+    transition: color 0.3s ease;
+}
+.navbar .dropdown-toggle:hover {
+    color: #000c0e;
+}
+.navbar-nav .nav-link.active, 
+.navbar-nav .nav-link.show {
+    color: #000000 !important; /* Örneğin siyah rengi ayarlamak için */
+    background-color: transparent !important; /* Arka plan rengini sıfırlar */
+}
+.navbar-dark, .navbar[data-bs-theme=dark] {
+    --bs-navbar-brand-hover-color: #138c9c !important;
+    background-color: transparent !important; /* Arka plan rengini sıfırlar */
+
+   }

@@ -200,10 +200,48 @@ $totalPages = ceil($totalCount / $limit);
     <link rel="shortcut icon" href="../assets/images/asistik_logo.png">
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <link rel="stylesheet" href="../assets/css/super_user.css">
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+
+    <!-- Bootstrap Icons (Dropdown için simgeler) -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons/font/bootstrap-icons.css" rel="stylesheet">
+
+    <!-- Bootstrap JS (Dropdown gibi özellikler için gerekli) -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+
 
 </head>
 
 <body>
+    <!-- Navbar -->
+    <nav class="navbar navbar-expand-lg navbar-dark">
+        <div class="container">
+            <a class="navbar-brand" href="#">
+                <img src="../assets/images/asistik_logo.png" alt="Asistik Logo" class="logo me-2" style="height: 40px;">&nbsp;&nbsp;
+                ASİSTİK
+            </a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav ms-auto">
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle" href="#" id="userDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                            <i class="bi bi-person-circle"></i> Ahmet DEMİR
+                        </a>
+                        <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="userDropdown">
+                            <li>
+                                <form action="super_user_logout.php" method="POST">
+                                    <button type="submit" class="dropdown-item">Çıkış Yap</button>
+                                </form>
+                            </li>
+                        </ul>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
     <div class="container">
         <div class="container-custom">
             <h1>Onay Bekleyen İşverenler</h1>
@@ -264,7 +302,7 @@ $totalPages = ceil($totalCount / $limit);
                                     <td><?= htmlspecialchars($user['company_name']) ?></td>
                                     <td><?= htmlspecialchars($user['email']) ?></td>
                                     <td><?= htmlspecialchars($user['phone']) ?></td>
-                                    <td><?= !empty($user['created_at'])? htmlspecialchars(date('d-m-Y H:i', strtotime($user['created_at']))): 'Tarih Yok' ?>
+                                    <td><?= !empty($user['created_at']) ? htmlspecialchars(date('d-m-Y H:i', strtotime($user['created_at']))) : 'Tarih Yok' ?>
                                     </td>
                                     <!-- Tarihi formatlayarak göster -->
                                     <td>

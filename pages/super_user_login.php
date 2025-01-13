@@ -2,14 +2,24 @@
 session_start();
 
 // Super User kullanıcı adı ve şifre
-define('SUPER_USER', 'super_user');
-define('SUPER_PASSWORD', 'superuser_password');
+define('SUPER_USER', 'ahmetDemir');
+define('SUPER_PASSWORD', 'ahmetDemir_password');
+
+// Hata mesajı ve başarı mesajı değişkenleri
+$error_message = '';
+$success_message = '';
+
+// Çıkış mesajını kontrol et
+if (isset($_GET['logout']) && $_GET['logout'] === 'success') {
+    $success_message = "Başarıyla çıkış yaptınız.";
+}
 
 // Giriş kontrolü
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $username = $_POST['username'] ?? '';
     $password = $_POST['password'] ?? '';
 
+    // Giriş doğrulaması
     if ($username === SUPER_USER && $password === SUPER_PASSWORD) {
         $_SESSION['is_super_user'] = true; // Oturum değişkeni ayarla
         header('Location: super_user_dashboard.php'); // Ana sayfaya yönlendir
@@ -336,15 +346,16 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 </head>
 
 <body>
-    <div class="login-container">
-        <div class="logo-container">
-            <img src="../assets/images/asistik_logo.png" alt="ASİSTİK Logo" class="logo">
-        </div>
+<div class="login-container">
+        <img src="../assets/images/asistik_logo.png" alt="ASİSTİK Logo" class="logo">
         <h1>Yetkili Girişi</h1>
+        <?php if (!empty($success_message)): ?>
+            <div class="alert alert-success"><?= htmlspecialchars($success_message) ?></div>
+        <?php endif; ?>
+        <?php if (!empty($error_message)): ?>
+            <div class="alert alert-danger"><?= htmlspecialchars($error_message) ?></div>
+        <?php endif; ?>
         <form method="POST" action="">
-            <?php if (!empty($error_message)): ?>
-                <div class="alert alert-danger"><?= htmlspecialchars($error_message) ?></div>
-            <?php endif; ?>
             <div class="mb-3">
                 <label for="username" class="form-label">Kullanıcı Adı</label>
                 <input type="text" class="form-control" id="username" name="username" placeholder="Kullanıcı Adınızı Girin" required>
@@ -355,6 +366,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             </div>
             <button type="submit" class="btn btn-primary w-100">Giriş Yap</button>
         </form>
+    </div>
     </div>
 </body>
 
